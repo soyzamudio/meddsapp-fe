@@ -2,10 +2,26 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faAt, faHospital, faPhone, faSyringe, faTablets } from '@fortawesome/free-solid-svg-icons';
+import {
+  faAt,
+  faClockRotateLeft,
+  faDumbbell,
+  faHospital,
+  faPhone,
+  faPlateWheat,
+  faSmoking,
+  faSyringe,
+  faTablets,
+  faTimeline,
+  faUserPen,
+  faWineGlass,
+} from '@fortawesome/free-solid-svg-icons';
 import { DashboardBlockComponent } from './../../shared/components/dashboard-block/dashboard-block.component';
 import { PillComponent } from './../../shared/components/pill/pill.component';
-import { BasicMedialInformationLabels, Patient } from './../../shared/interfaces/index';
+import {
+  BasicMedialInformationLabels,
+  Patient,
+} from './../../shared/interfaces/index';
 import { AgePipe } from './../../shared/pipes/age.pipe';
 import { PatientService } from './../../shared/services/patient.service';
 
@@ -29,9 +45,17 @@ export class DetailsComponent {
   faAt = faAt;
   faSyringe = faSyringe;
   faHospital = faHospital;
+  faTimeline = faTimeline;
+  faClockRotateLeft = faClockRotateLeft;
+  faDumbbell = faDumbbell;
+  faSmoking = faSmoking;
+  faWineGlass = faWineGlass;
+  faPlateWheat = faPlateWheat;
+  faUserPen = faUserPen;
   patientId = this.route.snapshot.params['id'];
   patient = this.patients.getPatientById(this.patientId) as any;
   basicInformationIndex = 0;
+  today = new Date();
   keys = Object.keys;
 
   constructor(private route: ActivatedRoute, private patients: PatientService) {

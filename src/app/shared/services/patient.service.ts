@@ -11,6 +11,7 @@ const chance = new Chance();
 })
 export class PatientService {
   patients: Patient[] = generatePatients(100);
+  recentPatients: Patient[] = JSON.parse(localStorage.getItem('recentPatients') as string || '[]');
 
   constructor() { }
 
@@ -91,5 +92,20 @@ export class PatientService {
 
   getPatientsWithAppointmentsToday(): Patient[] {
     return this.patients.filter(patient => patient.nextConsultation?.date.toDateString() === new Date().toDateString());
+  }
+
+  addToRecentPatients(patient: Patient): void {
+    if (!this.recentPatients) {
+      this.recentPatients = [];
+    }
+
+    const index = this.recentPatients.findIndex(p => p.id === patient.id);
+    if (index !== -1) {
+      this.recentPatients.splice(index, 1);
+    }
+
+    this.recentPatients.unshift(patient);
+    this.recentPatients.slice(0, 5);
+    localStorage.setItem('recentPatients', JSON.stringify(this.recentPatients));
   }
 }

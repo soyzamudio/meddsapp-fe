@@ -13,6 +13,36 @@
             {{ patient.dob | date }} •
             {{ patient.dob | age }}
           </h2>
+          <div class="flex gap-4 text-gray-400">
+            <div
+              class="flex gap-2 items-center"
+              *ngIf="patient.lifestyleInformation.diet"
+            >
+              <fa-icon class="text-sm" [icon]="faPlateWheat"></fa-icon>
+              <h2 class="text-sm">Dieta</h2>
+            </div>
+            <div
+              class="flex gap-2 items-center"
+              *ngIf="patient.lifestyleInformation.exercise"
+            >
+              <fa-icon class="text-sm" [icon]="faDumbbell"></fa-icon>
+              <h2 class="text-sm">Ejercicio</h2>
+            </div>
+            <div
+              class="flex gap-2 items-center"
+              *ngIf="patient.lifestyleInformation.smoking"
+            >
+              <fa-icon class="text-sm" [icon]="faSmoking"></fa-icon>
+              <h2 class="text-sm">Fumador</h2>
+            </div>
+            <div
+              class="flex gap-2 items-center"
+              *ngIf="patient.lifestyleInformation.alcohol"
+            >
+              <fa-icon class="text-sm" [icon]="faWineGlass"></fa-icon>
+              <h2 class="text-sm">Alcohol</h2>
+            </div>
+          </div>
         </div>
         <div class="flex flex-col gap-2 justify-start">
           <div class="flex gap-4">
@@ -101,6 +131,9 @@
                     Condiciones
                   </h1>
                   <div class="flex gap-2 flex-wrap text-gray-700">
+                    <div *ngIf="!patient.medicalHistory?.conditions.length">
+                      <span class="text-gray-400"> No hay condiciones </span>
+                    </div>
                     <div
                       class="w-[25%]"
                       *ngFor="
@@ -118,6 +151,9 @@
                     Alergias
                   </h1>
                   <div class="flex gap-2 flex-wrap text-gray-700">
+                    <div *ngIf="!patient.allergies.length">
+                      <span class="text-gray-400"> No hay alergias</span>
+                    </div>
                     <div
                       class="w-[25%]"
                       *ngFor="let allergy of patient.allergies"
@@ -132,6 +168,9 @@
                   <h1 class="font-semibold text-gray-700 capitalize">
                     Proxima Visita
                   </h1>
+                  <div *ngIf="!patient.nextConsultation">
+                    <span class="text-gray-400">No hay visita agendada</span>
+                  </div>
                   <div *ngIf="patient.nextConsultation" class="text-gray-700">
                     {{ patient.nextConsultation.date | date }}
                   </div>
@@ -140,6 +179,9 @@
                   <h1 class="font-semibold text-gray-700 capitalize">
                     Ultima visita
                   </h1>
+                  <div *ngIf="!patient.lastConsultation">
+                    <span class="text-gray-400">No hay ultima agendada</span>
+                  </div>
                   <div *ngIf="patient.lastConsultation" class="text-gray-700">
                     {{ patient.lastConsultation.date | date }}
                   </div>
@@ -150,7 +192,7 @@
         </div>
         <!-- Resumen end -->
 
-        <!-- Medication start -->
+        <!-- Medicamentos start -->
         <div class="flex flex-col">
           <h1 class="p-2 font-semibold text-lg">Medicamentos</h1>
           <div class="flex gap-4">
@@ -178,6 +220,8 @@
                     let last = last
                   "
                   [class.border-b]="!last"
+                  [class.bg-red-50]="medication.endDate < today"
+                  [class.line-through]="medication.endDate < today"
                 >
                   <div class="flex-1 font-bold">{{ medication.name }}</div>
                   <div class="flex-1">{{ medication.dosage }}</div>
@@ -188,7 +232,7 @@
             </app-dashboard-block>
           </div>
         </div>
-        <!-- Medication end -->
+        <!-- Medicamentos end -->
 
         <!-- Operaciones start -->
         <div class="flex flex-col">
@@ -244,6 +288,7 @@
                 <div class="flex py-2 font-bold capitalize">
                   <div class="flex-1">Razón</div>
                   <div class="flex-1">Fecha</div>
+                  <div class="flex-1">Días</div>
                 </div>
                 <div
                   class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm"
@@ -255,6 +300,7 @@
                 >
                   <div class="flex-1 font-bold">{{ hosp.reason }}</div>
                   <div class="flex-1">{{ hosp.date | date }}</div>
+                  <div class="flex-1">{{ hosp.days }}</div>
                 </div>
               </div>
             </app-dashboard-block>
@@ -266,11 +312,23 @@
       <div class="flex flex-col gap-4 flex-[0.3]">
         <app-dashboard-block
           class="cursor-pointer"
-          title="historial familiar"
+          title="historial de visitas"
+          [icon]="faClockRotateLeft"
         ></app-dashboard-block>
         <app-dashboard-block
           class="cursor-pointer"
-          title="Vacunas"
+          title="historial familiar"
+          [icon]="faTimeline"
+        ></app-dashboard-block>
+        <app-dashboard-block
+          class="cursor-pointer"
+          title="historial de vacunas"
+          [icon]="faSyringe"
+        ></app-dashboard-block>
+        <app-dashboard-block
+          class="cursor-pointer"
+          title="Notas del paciente"
+          [icon]="faUserPen"
         ></app-dashboard-block>
       </div>
     </div>

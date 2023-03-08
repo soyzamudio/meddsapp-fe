@@ -1,22 +1,22 @@
 export interface Patient {
-  id: string;
-  name: string;
-  dob: Date;
-  active: boolean;
-  gender?: string;
-  createdAt?: Date;
-  contactDetails?: ContactDetails;
-  lastConsultation?: Consultation | null;
-  nextConsultation?: Consultation;
-  medicalHistory?: MedicalHistory;
+  id: string; // done
+  name: string; // done
+  dob: Date; // done
+  active: boolean; // done
+  gender?: string; // done
+  createdAt?: Date; // done
+  contactDetails?: ContactDetails; // done
+  lastConsultation?: Consultation | null; // done
+  nextConsultation?: Consultation | null; // done
+  medicalHistory?: MedicalHistory; // done
+  medications?: Medication[]; // done
+  allergies?: Allergy[]; // done
+  immunizations?: Immunization[]; // done
+  basicMedicalInformation?: BasicMedicalInformation[]; // done
+  lifestyleInformation?: LifestyleInformation; // done
   familyHistory?: FamilyHistory;
-  medications?: Medication[];
-  allergies?: Allergy[];
-  immunizations?: Immunization[];
   diagnosticTestResults?: DiagnosticTestResult[];
   consultations?: Consultation[];
-  lifestyleInformation?: LifestyleInformation;
-  basicMedicalInformation?: BasicMedicalInformation[];
   notes?: string[];
 }
 
@@ -58,7 +58,7 @@ export interface Surgery {
 export interface Hospitalization {
   reason: string;
   date: Date;
-  dischargeDate?: Date;
+  days: number;
 }
 
 export interface FamilyHistory {
@@ -95,9 +95,10 @@ export interface Consultation {
 }
 
 export interface LifestyleInformation {
-  diet: string;
-  exercise: string;
+  diet: boolean;
+  exercise: boolean;
   smoking: boolean;
+  alcohol: boolean;
 }
 
 export const BasicMedialInformationLabels = {

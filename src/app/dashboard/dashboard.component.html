@@ -8,18 +8,34 @@
         >
         <div class="flex gap-4">
           <div class="flex-1">
-            <app-dashboard-block title="pacientes al mes">
-              <canvas id="genderChart">{{ consultationChart }}</canvas>
+            <app-dashboard-block title="pacientes por mes" [icon]="faChartLine">
+              <canvas id="monthly-consultations">{{
+                consultationChart
+              }}</canvas>
             </app-dashboard-block>
           </div>
           <div class="flex-1">
-            <app-dashboard-block>App</app-dashboard-block>
+            <app-dashboard-block title="Vistos Recientemente" [icon]="faUser">
+              <div class="flex flex-col">
+                <a
+                  [routerLink]="['/pacientes/detalles', patient.id]"
+                  class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm rounded-md"
+                  *ngFor="
+                    let patient of patients.recentPatients;
+                    let last = last
+                  "
+                  [class.border-b]="!last"
+                >
+                  {{ patient.name }}
+                </a>
+              </div>
+            </app-dashboard-block>
           </div>
         </div>
       </div>
       <div class="flex flex-col flex-[0.15] gap-4">
-        <app-dashboard-block title="Pacientes hoy">
-          <h1 class="text-4xl font-bold py-4">
+        <app-dashboard-block title="Citas Hoy" [icon]="faCalendarCheck">
+          <h1 class="flex text-4xl font-bold py-4 justify-center">
             {{ getPatientsToday().length }}
           </h1>
         </app-dashboard-block>

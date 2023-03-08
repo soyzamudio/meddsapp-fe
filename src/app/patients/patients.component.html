@@ -32,9 +32,10 @@
     <app-dashboard-block>
       <a
         routerLink="/pacientes/detalles/{{ patient.id }}"
-        class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm"
+        class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm rounded-md"
         *ngFor="let patient of patientService.patients; let last = last"
         [class.border-b]="!last"
+        (click)="patientService.addToRecentPatients(patient)"
       >
         <div class="flex-1 font-bold">{{ patient.name }}</div>
         <div class="flex-1">{{ patient.dob | age }}</div>

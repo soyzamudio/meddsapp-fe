@@ -10,6 +10,12 @@ export function generatePatients(n: number): Patient[] {
     name: chance.name(),
     dob: chance.birthday(),
     gender: chance.gender(),
+    lifestyleInformation: {
+      smoking: chance.bool(),
+      alcohol: chance.bool(),
+      exercise: chance.bool(),
+      diet: chance.bool(),
+    },
     contactDetails: {
       email: chance.email(),
       phone: chance.phone(),
@@ -27,14 +33,14 @@ export function generatePatients(n: number): Patient[] {
         reaction: chance.word({ length: 10 }),
       })
     ),
-    lastConsultation: {
-      patientId: '1',
+    lastConsultation: chance.bool() ? {
+      patientId: i.toString(),
       date: new Date(chance.date({ year: 2022 })),
-    },
-    nextConsultation: {
-      patientId: '1',
+    } : null,
+    nextConsultation: chance.bool() ? {
+      patientId: i.toString(),
       date: new Date(),
-    },
+    } : null,
     active: chance.bool(),
     medicalHistory: {
       conditions: Array.from(
@@ -53,6 +59,7 @@ export function generatePatients(n: number): Patient[] {
         (_, i) => ({
           reason: chance.word({ length: 10 }),
           date: new Date(chance.date({ year: 2022 })),
+          days: chance.integer({ min: 1, max: 10 }),
         })
       ),
     },
@@ -64,9 +71,11 @@ export function generatePatients(n: number): Patient[] {
           chance.integer({ min: 1, max: 10 }) +
           chance.pickone(['mg', 'g', 'ml']),
         startDate: new Date(chance.date({ year: 2022 })),
-        endDate: new Date(chance.date({ year: 2022 })),
+        endDate: new Date(
+          chance.date({ year: +chance.year({ min: 2020, max: 2024 }) })
+        ),
       })
-    ),
+    ).sort((a, b) => +new Date(b.endDate) - +new Date(a.endDate)),
     basicMedicalInformation: [
       {
         takenAt: new Date(chance.date({ year: 2022 })),
