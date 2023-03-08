@@ -1,0 +1,9 @@
+<!-- pill using tailwind -->
+<div
+  class="flex items-center justify-center rounded-full px-3 py-[1px] text-sm font-medium text-slate-700 gap-2"
+  [class.bg-green-200]="active === true"
+  [class.bg-red-200]="active === false"
+  [class.bg-gray-200]="!active"
+>
+  <ng-content></ng-content>
+</div>

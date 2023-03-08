@@ -1,0 +1,26 @@
+<div class="flex flex-row h-screen antialiased text-gray-800">
+  <div class="flex flex-col h-full w-full bg-gray-100 px-4 py-6">
+    <div class="flex gap-4">
+      <div class="flex flex-col gap-4 flex-1">
+        <app-dashboard-block>App</app-dashboard-block>
+        <app-dashboard-block title="Promedio de pacientes"
+          >App</app-dashboard-block
+        >
+        <div class="flex gap-4">
+          <div class="flex-1">
+            <app-dashboard-block title="pacientes al mes">
+              <canvas id="genderChart">{{ genderChart }}</canvas>
+            </app-dashboard-block>
+          </div>
+          <div class="flex-1">
+            <app-dashboard-block>App</app-dashboard-block>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col flex-[0.5] gap-4">
+        <app-dashboard-block title="Pacientes hoy">Hi</app-dashboard-block>
+        <app-dashboard-block title="Actividad reciente">Hi</app-dashboard-block>
+      </div>
+    </div>
+  </div>
+</div>

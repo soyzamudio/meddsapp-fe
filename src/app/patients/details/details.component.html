@@ -1,0 +1,158 @@
+<div class="flex flex-row h-screen antialiased text-gray-800">
+  <div
+    class="flex flex-col h-full w-full max-w-full bg-gray-100 px-4 py-6 gap-4 overflow-y-scroll"
+  >
+    <app-dashboard-block>
+      <div class="flex gap-4">
+        <div class="flex flex-1 flex-col gap-2">
+          <h1 class="text-2xl font-bold flex items-center gap-2">
+            {{ patient.name }}
+            <app-pill>{{ patient.gender }}</app-pill>
+          </h1>
+          <h2>
+            {{ patient.dob | date }} •
+            {{ patient.dob | age }}
+          </h2>
+        </div>
+        <div class="flex flex-1 flex-col"></div>
+        <div class="flex flex-1 flex-col"></div>
+      </div>
+    </app-dashboard-block>
+    <div class="flex gap-4">
+      <div class="flex flex-col gap-4 flex-1">
+        <!-- basic information start -->
+        <div class="flex flex-col">
+          <div class="flex justify-between items-center">
+            <h1 class="flex p-2 font-semibold text-lg">Información Basica</h1>
+            <select
+              class="flex border border-gray-300 rounded-md p-2 py-1 text-sm h-8"
+              #basicInformation
+              (change)="onBasicMedicalInformationChange(basicInformation.value)"
+            >
+              <option
+                *ngFor="
+                  let date of patient.basicMedicalInformation;
+                  let i = index
+                "
+                [value]="i"
+              >
+                {{ date.takenAt | date }}
+              </option>
+            </select>
+          </div>
+          <div class="flex gap-4">
+            <app-dashboard-block
+              class="flex-1"
+              *ngFor="
+                let key of keys(
+                  patient?.basicMedicalInformation[basicInformationIndex]
+                    .information
+                )
+              "
+            >
+              <h3 class="text-xs text-slate-500 capitalize">
+                {{ getLabel(key) }}
+              </h3>
+              <h1 class="text-3xl">
+                {{
+                  getValue(
+                    key,
+                    patient.basicMedicalInformation[basicInformationIndex]
+                      .information
+                  )
+                }}
+              </h1>
+            </app-dashboard-block>
+          </div>
+        </div>
+        <!-- basic infromation end -->
+
+        <!-- resumen start -->
+        <div class="flex flex-col">
+          <h1 class="p-2 font-semibold text-lg">Resumen</h1>
+          <div class="flex gap-4">
+            <app-dashboard-block class="flex-1">
+              <div class="flex">
+                <div class="flex flex-col flex-1 gap-2">
+                  <h1 class="font-semibold text-gray-700 capitalize">
+                    Condiciones
+                  </h1>
+                  <div class="flex gap-2 flex-wrap text-gray-700">
+                    <div
+                      class="w-[25%]"
+                      *ngFor="
+                        let condition of patient.medicalHistory?.conditions
+                      "
+                    >
+                      <span class="border-b pb-1 border-gray-400 border-dotted">
+                        {{ condition }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col flex-[.5] gap-2">
+                  <h1 class="font-semibold text-gray-700 capitalize">
+                    Proxima Visita
+                  </h1>
+                  <div *ngIf="patient.nextConsultation" class="text-gray-700">
+                    {{ patient.nextConsultation.date | date }}
+                  </div>
+                </div>
+                <div class="flex flex-col flex-[.5] gap-2">
+                  <h1 class="font-semibold text-gray-700 capitalize">
+                    Ultima visita
+                  </h1>
+                  <div *ngIf="patient.lastConsultation" class="text-gray-700">
+                    {{ patient.lastConsultation.date | date }}
+                  </div>
+                </div>
+              </div>
+            </app-dashboard-block>
+          </div>
+        </div>
+        <!-- Resumen end -->
+
+        <!-- Medication start -->
+        <div class="flex flex-col">
+          <h1 class="p-2 font-semibold text-lg">Medicamentos</h1>
+          <div class="flex gap-4">
+            <app-dashboard-block class="flex-1">
+              <div
+                *ngIf="!patient?.medications?.length"
+                class="flex items-center justify-center py-4 gap-4 text-gray-400"
+              >
+                <fa-icon [icon]="faTablets"></fa-icon>
+                <h1 class="text-xl font-semibold">
+                  El paciente no utiliza ningún medicamento
+                </h1>
+              </div>
+              <div *ngIf="patient?.medications?.length">
+                <div class="flex py-2 font-bold capitalize">
+                  <div class="flex-1">Medicamento</div>
+                  <div class="flex-1">Dosis</div>
+                  <div class="flex-1">Inicio</div>
+                  <div class="flex-1">Final</div>
+                </div>
+                <div
+                  class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm"
+                  *ngFor="
+                    let medication of patient.medications;
+                    let last = last
+                  "
+                  [class.border-b]="!last"
+                >
+                  <div class="flex-1 font-bold">{{ medication.name }}</div>
+                  <div class="flex-1">{{ medication.dosage }}</div>
+                  <div class="flex-1">{{ medication.startDate | date }}</div>
+                  <div class="flex-1">{{ medication.endDate | date }}</div>
+                </div>
+              </div>
+            </app-dashboard-block>
+          </div>
+        </div>
+        <!-- Medication end -->
+      </div>
+      <div class="flex-[0.3]"></div>
+    </div>
+  </div>
+</div>

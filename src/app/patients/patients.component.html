@@ -1,0 +1,58 @@
+<div class="flex flex-row h-screen antialiased text-gray-800">
+  <div class="flex flex-col gap-4 h-full w-full bg-gray-100 px-4 py-6">
+    <app-dashboard-block>
+      <div class="flex w-full content-between items-center gap-4">
+        <div class="flex-1">
+          <input
+            type="text"
+            class="w-full border border-transparent focus:outline-none text-base h-10 flex items-center"
+            placeholder="Buscar paciente"
+          />
+        </div>
+        <div>
+          <a
+            class="bg-indigo-800 hover:bg-indigo-700 text-white py-2 px-4 rounded capitalize cursor-pointer"
+            routerLink="/pacientes/crear"
+          >
+            &plus; Agregar paciente
+          </a>
+        </div>
+      </div>
+    </app-dashboard-block>
+    <div class="flex px-4 py-2 font-bold capitalize">
+      <div class="flex-1">Nombre</div>
+      <div class="flex-1">Edad</div>
+      <div class="flex-1">Ultima visita</div>
+      <div class="flex-1">Proxima visita</div>
+      <div class="flex-1">Activo</div>
+      <div class="flex flex-1 justify-center">Acciones</div>
+    </div>
+    <app-dashboard-block>
+      <a
+        routerLink="/pacientes/detalles/{{ patient.id }}"
+        class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm"
+        *ngFor="let patient of patientService.patients; let last = last"
+        [class.border-b]="!last"
+      >
+        <div class="flex-1 font-bold">{{ patient.name }}</div>
+        <div class="flex-1">{{ patient.dob | age }}</div>
+        <div class="flex-1">{{ patient.lastConsultation?.date | date }}</div>
+        <div class="flex-1">{{ patient.nextConsultation?.date | date }}</div>
+        <div class="flex-1">
+          <app-pill class="flex" [active]="patient.active">
+            <div
+              class="h-2 w-2 rounded-full"
+              [class.bg-green-500]="patient.active"
+              [class.bg-red-500]="!patient.active"
+            ></div>
+            <div>{{ patient.active ? "Activo" : "Inactivo" }}</div></app-pill
+          >
+        </div>
+        <div class="flex flex-1 justify-center gap-4">
+          <fa-icon class="text-slate-500" [icon]="faEdit"></fa-icon>
+          <fa-icon class="text-red-500" [icon]="faTrash"></fa-icon>
+        </div>
+      </a>
+    </app-dashboard-block>
+  </div>
+</div>
