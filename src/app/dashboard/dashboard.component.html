@@ -9,7 +9,7 @@
         <div class="flex gap-4">
           <div class="flex-1">
             <app-dashboard-block title="pacientes al mes">
-              <canvas id="genderChart">{{ genderChart }}</canvas>
+              <canvas id="genderChart">{{ consultationChart }}</canvas>
             </app-dashboard-block>
           </div>
           <div class="flex-1">
@@ -17,9 +17,12 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-col flex-[0.5] gap-4">
-        <app-dashboard-block title="Pacientes hoy">Hi</app-dashboard-block>
-        <app-dashboard-block title="Actividad reciente">Hi</app-dashboard-block>
+      <div class="flex flex-col flex-[0.15] gap-4">
+        <app-dashboard-block title="Pacientes hoy">
+          <h1 class="text-4xl font-bold py-4">
+            {{ getPatientsToday().length }}
+          </h1>
+        </app-dashboard-block>
       </div>
     </div>
   </div>

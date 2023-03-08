@@ -3,8 +3,8 @@
     class="flex flex-col h-full w-full max-w-full bg-gray-100 px-4 py-6 gap-4 overflow-y-scroll"
   >
     <app-dashboard-block>
-      <div class="flex gap-4">
-        <div class="flex flex-1 flex-col gap-2">
+      <div class="flex gap-52">
+        <div class="flex flex-col gap-2">
           <h1 class="text-2xl font-bold flex items-center gap-2">
             {{ patient.name }}
             <app-pill>{{ patient.gender }}</app-pill>
@@ -14,8 +14,31 @@
             {{ patient.dob | age }}
           </h2>
         </div>
-        <div class="flex flex-1 flex-col"></div>
-        <div class="flex flex-1 flex-col"></div>
+        <div class="flex flex-col gap-2 justify-start">
+          <div class="flex gap-4">
+            <fa-icon class="text-sm" [icon]="faPhone"></fa-icon>
+            <h2 class="text-sm text-gray-800">
+              {{ patient.contactDetails.phone }}
+            </h2>
+          </div>
+          <div class="flex gap-4">
+            <fa-icon class="text-sm" [icon]="faAt"></fa-icon>
+            <h2 class="text-sm text-gray-800">
+              {{ patient.contactDetails.email }}
+            </h2>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2 justify-start">
+          <div class="flex gap-4">
+            <fa-icon class="text-sm" [icon]="faAt"></fa-icon>
+            <h2 class="text-sm text-gray-800">
+              {{ patient.contactDetails.address.street }} <br />
+              {{ patient.contactDetails.address.city }},
+              {{ patient.contactDetails.address.state }}
+              {{ patient.contactDetails.address.zip }}
+            </h2>
+          </div>
+        </div>
       </div>
     </app-dashboard-block>
     <div class="flex gap-4">
@@ -90,6 +113,21 @@
                     </div>
                   </div>
                 </div>
+                <div class="flex flex-col flex-1 gap-2">
+                  <h1 class="font-semibold text-gray-700 capitalize">
+                    Alergias
+                  </h1>
+                  <div class="flex gap-2 flex-wrap text-gray-700">
+                    <div
+                      class="w-[25%]"
+                      *ngFor="let allergy of patient.allergies"
+                    >
+                      <span class="border-b pb-1 border-gray-400 border-dotted">
+                        {{ allergy.name }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
                 <div class="flex flex-col flex-[.5] gap-2">
                   <h1 class="font-semibold text-gray-700 capitalize">
                     Proxima Visita
@@ -151,8 +189,90 @@
           </div>
         </div>
         <!-- Medication end -->
+
+        <!-- Operaciones start -->
+        <div class="flex flex-col">
+          <h1 class="p-2 font-semibold text-lg">Operaciones</h1>
+          <div class="flex gap-4">
+            <app-dashboard-block class="flex-1">
+              <div
+                *ngIf="!patient?.medicalHistory?.surgeries.length"
+                class="flex items-center justify-center py-4 gap-4 text-gray-400"
+              >
+                <fa-icon [icon]="faSyringe"></fa-icon>
+                <h1 class="text-xl font-semibold">
+                  El paciente no ha tenido ninguna operación
+                </h1>
+              </div>
+              <div *ngIf="patient?.medicalHistory?.surgeries?.length">
+                <div class="flex py-2 font-bold capitalize">
+                  <div class="flex-1">Operación</div>
+                  <div class="flex-1">Fecha</div>
+                </div>
+                <div
+                  class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm"
+                  *ngFor="
+                    let surgery of patient?.medicalHistory?.surgeries;
+                    let last = last
+                  "
+                  [class.border-b]="!last"
+                >
+                  <div class="flex-1 font-bold">{{ surgery.name }}</div>
+                  <div class="flex-1">{{ surgery.date | date }}</div>
+                </div>
+              </div>
+            </app-dashboard-block>
+          </div>
+        </div>
+        <!-- Operaciones end -->
+
+        <!-- Hopitalizaciones start -->
+        <div class="flex flex-col">
+          <h1 class="p-2 font-semibold text-lg">Hopitalizaciones</h1>
+          <div class="flex gap-4">
+            <app-dashboard-block class="flex-1">
+              <div
+                *ngIf="!patient?.medicalHistory?.hospitalizations.length"
+                class="flex items-center justify-center py-4 gap-4 text-gray-400"
+              >
+                <fa-icon [icon]="faHospital"></fa-icon>
+                <h1 class="text-xl font-semibold">
+                  El paciente no ha sido hospitalizado
+                </h1>
+              </div>
+              <div *ngIf="patient?.medicalHistory?.hospitalizations?.length">
+                <div class="flex py-2 font-bold capitalize">
+                  <div class="flex-1">Razón</div>
+                  <div class="flex-1">Fecha</div>
+                </div>
+                <div
+                  class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm"
+                  *ngFor="
+                    let hosp of patient?.medicalHistory?.hospitalizations;
+                    let last = last
+                  "
+                  [class.border-b]="!last"
+                >
+                  <div class="flex-1 font-bold">{{ hosp.reason }}</div>
+                  <div class="flex-1">{{ hosp.date | date }}</div>
+                </div>
+              </div>
+            </app-dashboard-block>
+          </div>
+        </div>
+        <!-- Hopitalizaciones end -->
       </div>
-      <div class="flex-[0.3]"></div>
+
+      <div class="flex flex-col gap-4 flex-[0.3]">
+        <app-dashboard-block
+          class="cursor-pointer"
+          title="historial familiar"
+        ></app-dashboard-block>
+        <app-dashboard-block
+          class="cursor-pointer"
+          title="Vacunas"
+        ></app-dashboard-block>
+      </div>
     </div>
   </div>
 </div>

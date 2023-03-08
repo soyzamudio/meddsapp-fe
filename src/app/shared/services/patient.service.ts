@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Patient } from '../interfaces';
 import { Chance } from 'chance';
+import { generatePatients } from '../utils/patient';
 
 const chance = new Chance();
 
@@ -9,154 +10,8 @@ const chance = new Chance();
   providedIn: 'root'
 })
 export class PatientService {
-  patients: Patient[] = [
-    {
-      id: '1',
-      createdAt: chance.date(),
-      name: chance.name(),
-      dob: chance.birthday(),
-      gender: chance.gender(),
-      lastConsultation: {
-        patientId: '1',
-        date: new Date(chance.date({ year: 2022 })),
-      },
-      nextConsultation: {
-        patientId: '1',
-        date: new Date(chance.date({ year: new Date().getFullYear() })),
-      },
-      active: chance.bool(),
-      medicalHistory: {
-        conditions: chance.n(chance.word, 5),
-      },
-      medications: [
-        {
-          name: chance.word(),
-          dosage: chance.integer({ min: 1, max: 10 }) + chance.pickone(['mg', 'g', 'ml']),
-          startDate: new Date(chance.date({ year: 2022 })),
-          endDate: new Date(chance.date({ year: 2022 })),
-        },
-        {
-          name: chance.word(),
-          dosage: chance.integer({ min: 1, max: 10 }) + chance.pickone(['mg', 'g', 'ml']),
-          startDate: new Date(chance.date({ year: 2022 })),
-          endDate: new Date(chance.date({ year: 2022 })),
-        },
-        {
-          name: chance.word(),
-          dosage: chance.integer({ min: 1, max: 10 }) + chance.pickone(['mg', 'g', 'ml']),
-          startDate: new Date(chance.date({ year: 2022 })),
-          endDate: new Date(chance.date({ year: 2022 })),
-        },
-      ],
-      basicMedicalInformation: [
-        {
-          takenAt: new Date(chance.date({ year: 2022 })),
-          information: {
-            height: chance.integer({ min: 100, max: 200 }),
-            weight: chance.integer({ min: 40, max: 100 }),
-            bloodType: chance.pickone(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
-            bloodPressure: chance.integer({ min: 80, max: 120 }) + '/' + chance.integer({ min: 80, max: 120 }),
-            heartRate: chance.integer({ min: 60, max: 100 }),
-            respiratoryRate: chance.integer({ min: 10, max: 20 }),
-            temperature: null,
-          }
-        },
-        {
-          takenAt: new Date(chance.date({ year: 2022 })),
-          information: {
-            height: chance.integer({ min: 100, max: 200 }),
-            weight: chance.integer({ min: 40, max: 100 }),
-            bloodType: chance.pickone(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
-            bloodPressure: chance.integer({ min: 80, max: 120 }) + '/' + chance.integer({ min: 80, max: 120 }),
-            heartRate: chance.integer({ min: 60, max: 100 }),
-            respiratoryRate: chance.integer({ min: 10, max: 20 }),
-            temperature: null,
-          }
-        }
-      ]
-    },
-    {
-      id: '2',
-      createdAt: chance.date(),
-      name: chance.name(),
-      dob: chance.birthday(),
-      gender: chance.gender(),
-      lastConsultation: {
-        patientId: '2',
-        date: new Date(chance.date({ year: 2022 })),
-      },
-      nextConsultation: {
-        patientId: '2',
-        date: new Date(chance.date({ year: new Date().getFullYear() })),
-      },
-      active: chance.bool(),
-      medicalHistory: {
-        conditions: chance.n(chance.word, 5),
-      },
-      medications: [
-        {
-          name: chance.word(),
-          dosage: chance.integer({ min: 1, max: 10 }) + chance.pickone(['mg', 'g', 'ml']),
-          startDate: new Date(chance.date({ year: 2022 })),
-          endDate: new Date(chance.date({ year: 2022 })),
-        },
-        {
-          name: chance.word(),
-          dosage: chance.integer({ min: 1, max: 10 }) + chance.pickone(['mg', 'g', 'ml']),
-          startDate: new Date(chance.date({ year: 2022 })),
-          endDate: new Date(chance.date({ year: 2022 })),
-        },
-      ],
-      basicMedicalInformation: [
-        {
-          takenAt: new Date(chance.date({ year: 2022 })),
-          information: {
-            height: chance.integer({ min: 100, max: 200 }),
-            weight: chance.integer({ min: 40, max: 100 }),
-            bloodType: chance.pickone(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
-            bloodPressure: chance.integer({ min: 80, max: 120 }) + '/' + chance.integer({ min: 80, max: 120 }),
-            heartRate: chance.integer({ min: 60, max: 100 }),
-            respiratoryRate: chance.integer({ min: 10, max: 20 }),
-            temperature: null,
-          }
-        }
-      ]
-    },
-    {
-      id: '3',
-      createdAt: chance.date(),
-      name: chance.name(),
-      dob: chance.birthday(),
-      gender: chance.gender(),
-      lastConsultation: {
-        patientId: '3',
-        date: new Date(chance.date({ year: 2022 })),
-      },
-      nextConsultation: {
-        patientId: '3',
-        date: new Date(chance.date({ year: new Date().getFullYear() })),
-      },
-      active: chance.bool(),
-      medicalHistory: {
-        conditions: chance.n(chance.word, 5),
-      },
-      medications: [],
-      basicMedicalInformation: [
-        {
-          takenAt: new Date(chance.date({ year: 2022 })),
-          information: {
-            height: chance.integer({ min: 100, max: 200 }),
-            weight: chance.integer({ min: 40, max: 100 }),
-            bloodType: chance.pickone(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
-            bloodPressure: chance.integer({ min: 80, max: 120 }) + '/' + chance.integer({ min: 80, max: 120 }),
-            heartRate: chance.integer({ min: 60, max: 100 }),
-            respiratoryRate: chance.integer({ min: 10, max: 20 }),
-            temperature: null,
-          }
-        }
-      ]
-    },
-  ]
+  patients: Patient[] = generatePatients(100);
+
   constructor() { }
 
   getActivePatients(): Observable<Patient[]> {
@@ -232,5 +87,9 @@ export class PatientService {
       'November': chance.integer({ min: 5, max: 100 }),
       'December': chance.integer({ min: 5, max: 100 }),
     };
+  }
+
+  getPatientsWithAppointmentsToday(): Patient[] {
+    return this.patients.filter(patient => patient.nextConsultation?.date.toDateString() === new Date().toDateString());
   }
 }

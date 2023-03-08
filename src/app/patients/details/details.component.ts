@@ -1,17 +1,13 @@
-import { PillComponent } from './../../shared/components/pill/pill.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faAt, faHospital, faPhone, faSyringe, faTablets } from '@fortawesome/free-solid-svg-icons';
 import { DashboardBlockComponent } from './../../shared/components/dashboard-block/dashboard-block.component';
-import {
-  BasicMedialInformationLabels,
-  Patient,
-} from './../../shared/interfaces/index';
+import { PillComponent } from './../../shared/components/pill/pill.component';
+import { BasicMedialInformationLabels, Patient } from './../../shared/interfaces/index';
 import { AgePipe } from './../../shared/pipes/age.pipe';
 import { PatientService } from './../../shared/services/patient.service';
-import { faTablets } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-details',
@@ -29,16 +25,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 })
 export class DetailsComponent {
   faTablets = faTablets;
+  faPhone = faPhone;
+  faAt = faAt;
+  faSyringe = faSyringe;
+  faHospital = faHospital;
   patientId = this.route.snapshot.params['id'];
   patient = this.patients.getPatientById(this.patientId) as any;
   basicInformationIndex = 0;
   keys = Object.keys;
 
-  constructor(
-    private route: ActivatedRoute,
-    private patients: PatientService
-  ) {
-    console.log(this.patient)
+  constructor(private route: ActivatedRoute, private patients: PatientService) {
+    console.log(this.patient);
   }
 
   getLabel(key: string) {

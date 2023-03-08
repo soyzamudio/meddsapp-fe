@@ -36,7 +36,12 @@ export interface BasicMedicalInformation {
 export interface ContactDetails {
   email: string;
   phone: string;
-  address: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
 }
 
 export interface MedicalHistory {

@@ -25,20 +25,25 @@ const colors = {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  genderChart: any;
+  consultationChart: any;
 
   constructor(private patients: PatientService) {}
 
   ngOnInit() {
     this.getConsultationsChart();
+    console.log(this.getPatientsToday());
+  }
+
+  getPatientsToday() {
+    return this.patients.getPatientsWithAppointmentsToday();
   }
 
   getConsultationsChart() {
     const consultations = this.patients.getConsultationsPerMonth();
     const months = Object.keys(consultations);
-    const genderRef = document.getElementById('genderChart') as ChartItem;
+    const consultationsRef = document.getElementById('genderChart') as ChartItem;
 
-    const ctx = (genderRef as any).getContext('2d');
+    const ctx = (consultationsRef as any).getContext('2d');
     ctx.canvas.height = 250;
 
     const gradient = ctx.createLinearGradient(0, 25, 0, 300);
@@ -46,7 +51,7 @@ export class DashboardComponent implements OnInit {
     gradient.addColorStop(0.35, colors.purple.quarter);
     gradient.addColorStop(1, colors.purple.zero);
 
-    this.genderChart = new Chart(genderRef, {
+    this.consultationChart = new Chart(consultationsRef, {
       type: 'line',
       data: {
         labels: months.map((month) => `${month.slice(0, 3)}.`),
@@ -70,6 +75,11 @@ export class DashboardComponent implements OnInit {
           padding: 10,
         },
         responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
         scales: {
           x: {
             grid: {
@@ -93,21 +103,6 @@ export class DashboardComponent implements OnInit {
           },
         },
       },
-      // options: {
-      //   responsive: true,
-      //   plugins: {
-      //     legend: {
-      //       display: false,
-      //     },
-      //   },
-      //   scales: {
-      //     x: {
-      //       grid: {
-      //         display: false,
-      //       },
-      //     },
-      //   }
-      // },
     });
   }
 }
