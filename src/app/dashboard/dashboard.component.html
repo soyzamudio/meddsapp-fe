@@ -1,11 +1,26 @@
 <div class="flex flex-row h-screen antialiased text-gray-800">
-  <div class="flex flex-col h-full w-full bg-gray-100 px-4 py-6">
+  <div
+    class="flex flex-col h-full w-full bg-gray-100 px-4 py-6 overflow-y-scroll"
+  >
     <div class="flex gap-4">
       <div class="flex flex-col gap-4 flex-1">
-        <app-dashboard-block>App</app-dashboard-block>
-        <app-dashboard-block title="Promedio de pacientes"
+        <app-dashboard-block>
+          <div class="flex gap-4">
+            <div class="flex flex-1 justify-center">
+              <app-dashboard-block class="flex">
+                <bs-datepicker-inline
+                  [bsValue]="date"
+                  [bsConfig]="{ isAnimated: false }"
+                  (bsValueChange)="date = $event"
+                ></bs-datepicker-inline>
+              </app-dashboard-block>
+            </div>
+            <div class="flex-1">{{ date | date }}</div>
+          </div>
+        </app-dashboard-block>
+        <!-- <app-dashboard-block title="Promedio de pacientes"
           >App</app-dashboard-block
-        >
+        > -->
         <div class="flex gap-4">
           <div class="flex-1">
             <app-dashboard-block title="pacientes por mes" [icon]="faChartLine">

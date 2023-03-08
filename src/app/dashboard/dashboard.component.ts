@@ -1,3 +1,4 @@
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -13,7 +14,7 @@ import { DashboardBlockComponent } from './../shared/components/dashboard-block/
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, DashboardBlockComponent, RouterModule],
+  imports: [CommonModule, DashboardBlockComponent, RouterModule, BsDatepickerModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
@@ -22,6 +23,7 @@ export class DashboardComponent implements OnInit {
   faUser = faUser;
   faChartLine = faChartLine;
   faCalendarCheck = faCalendarCheck;
+  date = new Date();
 
   constructor(public patients: PatientService) {}
 
