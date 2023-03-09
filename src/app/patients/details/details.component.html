@@ -296,26 +296,50 @@
       </div>
 
       <div class="flex flex-col gap-4 flex-[0.3]">
-        <app-dashboard-block
-          class="cursor-pointer"
-          title="historial de visitas"
-          [icon]="faClockRotateLeft"
-        ></app-dashboard-block>
-        <app-dashboard-block
-          class="cursor-pointer"
-          title="historial familiar"
-          [icon]="faTimeline"
-        ></app-dashboard-block>
-        <app-dashboard-block
-          class="cursor-pointer"
-          title="historial de vacunas"
-          [icon]="faSyringe"
-        ></app-dashboard-block>
-        <app-dashboard-block
-          class="cursor-pointer"
-          title="Notas del paciente"
-          [icon]="faUserPen"
-        ></app-dashboard-block>
+        <a
+          class="bg-indigo-500 text-white p-3 rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer"
+        >
+          <div class="flex items-center gap-4">
+            <fa-icon
+              class="text-xs py-1 px-[6px] bg-white rounded-lg text-indigo-600"
+              [icon]="faClockRotateLeft"
+            ></fa-icon>
+            <h1 class="font-bold text-base">historial de visitas</h1>
+          </div>
+        </a>
+        <a
+          class="bg-indigo-500 text-white p-3 rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer"
+        >
+          <div class="flex items-center gap-4">
+            <fa-icon
+              class="text-xs py-1 px-[6px] bg-white rounded-lg text-indigo-600"
+              [icon]="faTimeline"
+            ></fa-icon>
+            <h1 class="font-bold text-base">historial familiar</h1>
+          </div>
+        </a>
+        <a
+          class="bg-indigo-500 text-white p-3 rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer"
+        >
+          <div class="flex items-center gap-4">
+            <fa-icon
+              class="text-xs py-1 px-[6px] bg-white rounded-lg text-indigo-600"
+              [icon]="faSyringe"
+            ></fa-icon>
+            <h1 class="font-bold text-base">historial de vacunas</h1>
+          </div>
+        </a>
+        <a
+          class="bg-white text-slate-600 p-3 rounded-md shadow-sm hover:bg-gray-50 cursor-pointer"
+        >
+          <div class="flex items-center gap-4">
+            <fa-icon
+              class="text-xs py-1 px-[6px] bg-white rounded-lg text-slate-600"
+              [icon]="faUserPen"
+            ></fa-icon>
+            <h1 class="font-bold text-base">Notas del paciente</h1>
+          </div>
+        </a>
       </div>
     </div>
   </div>
