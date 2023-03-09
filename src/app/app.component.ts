@@ -18,4 +18,8 @@ export class AppComponent {
   faMoon = faMoon;
   faUserDoctor = faUserDoctor;
   faLaptopMedical = faLaptopMedical;
+
+  toggleNightMode() {
+    document.body.classList.toggle('night-mode');
+  }
 }
