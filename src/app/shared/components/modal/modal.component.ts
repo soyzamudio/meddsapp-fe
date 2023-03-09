@@ -1,32 +1,40 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ComponentFactoryResolver,
-  ComponentRef,
-  Type,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
-import { Modal } from '../../classes/modal';
+import { Component } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
+  animations: [
+    trigger('modalFadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('0.1s ease-in-out', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ opacity: 1 }),
+        animate('0.1s ease-out', style({ opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
-export class ModalComponent {
-  @ViewChild('modalContainer', { read: ViewContainerRef })
-  private modalContainer: ViewContainerRef;
+export class ModalComponent<T> {
+  display = true;
+  faTimes = faTimes;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(private modalService: ModalService<T>) {}
 
-  createModal<T extends Modal>(component: Type<T>): ComponentRef<T> {
-    this.modalContainer.clear();
-    const factory =
-      this.componentFactoryResolver.resolveComponentFactory(component);
+  async close() {
+    this.display = false;
 
-    return this.modalContainer.createComponent(factory, 0);
+    setTimeout(async () => {
+      await this.modalService.close();
+    }, 300);
   }
 }

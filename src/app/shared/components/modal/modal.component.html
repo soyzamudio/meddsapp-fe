@@ -1,2 +1,28 @@
-<div class="modal-backdrop fade in"></div>
-<ng-template #modalContainer></ng-template>
+<section
+  *ngIf="display"
+  [class.open]="display"
+  class="fixed inset-0 z-50 overflow-y-auto"
+  (click)="close()"
+  [@modalFadeIn]
+>
+  <div
+    class="flex min-h-screen items-center justify-center bg-gray-900 bg-opacity-50 p-4 text-center sm:p-0"
+  >
+    <div
+      (click)="$event.stopPropagation()"
+      class="fixed h-screen w-screen overflow-hidden bg-white sm:w-full md:flex md:h-auto md:max-w-2xl"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-headline"
+    >
+      <div class="flex-1 bg-white p-5 sm:p-6 sm:pb-4">
+        <fa-icon
+          class="absolute right-5 top-4 cursor-pointer"
+          [icon]="faTimes"
+          (click)="close()"
+        ></fa-icon>
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</section>

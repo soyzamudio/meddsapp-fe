@@ -1,48 +1,51 @@
-import { ApplicationRef, ComponentFactory, ComponentFactoryResolver, Injectable, Type } from '@angular/core';
-import { Modal } from '../classes/modal';
-import { ModalRef } from '../classes/modal-ref';
-import { ModalComponent } from '../components/modal/modal.component';
+import {
+  ApplicationRef,
+  ComponentFactoryResolver,
+  ComponentRef,
+  EmbeddedViewRef,
+  Injectable,
+  Injector,
+  Type,
+} from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ModalService {
-  private modalContainer: HTMLElement;
-  private modalContainerFactory: ComponentFactory<ModalComponent>;
+export class ModalService<T> {
+  private componentRef: ComponentRef<T> | undefined;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private appRef: ApplicationRef
-  ) {
-    this.setupModalContainerFactory();
-  }
+    private appRef: ApplicationRef,
+    private injector: Injector
+  ) {}
 
-  open<T extends Modal>(component: Type<T>, inputs?: any): ModalRef {
-    this.setupModalContainerDiv();
-
-    const modalContainerRef = this.appRef.bootstrap(
-      this.modalContainerFactory,
-      this.modalContainer
-    );
-
-    const modalComponentRef = modalContainerRef.instance.createModal(component);
-
-    if (inputs) {
-      modalComponentRef.instance.onInjectInputs(inputs);
+  async open(component: Type<T>): Promise<void> {
+    if (this.componentRef) {
+      return;
     }
 
-    const modalRef = new ModalRef(modalContainerRef, modalComponentRef);
+    this.componentRef = this.componentFactoryResolver
+      .resolveComponentFactory<T>(component)
+      .create(this.injector);
+    this.appRef.attachView(this.componentRef.hostView);
 
-    return modalRef;
+    const domElem = (this.componentRef.hostView as
+                     EmbeddedViewRef<any>)
+                     .rootNodes[0] as HTMLElement;
+    document.body.appendChild(domElem);
+    document.body.classList.add('overflow-hidden');
   }
 
-  private setupModalContainerDiv(): void {
-    this.modalContainer = document.createElement('div');
-    document.getElementsByTagName('body')[0].appendChild(this.modalContainer);
-  }
+  async close(): Promise<void> {
+    if (!this.componentRef) {
+      return;
+    }
 
-  private setupModalContainerFactory(): void {
-    this.modalContainerFactory =
-      this.componentFactoryResolver.resolveComponentFactory(ModalComponent);
+    this.appRef.detachView(this.componentRef.hostView);
+    this.componentRef.destroy();
+
+    this.componentRef = undefined;
+    document.body.classList.remove('overflow-hidden');
   }
 }

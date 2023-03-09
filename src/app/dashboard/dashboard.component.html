@@ -6,6 +6,7 @@
       <div class="flex flex-col flex-[0.15] gap-4">
         <a
           class="bg-indigo-500 text-white p-3 rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer"
+          (click)="openNewConsultationModal()"
         >
           <div class="flex items-center gap-4">
             <fa-icon
@@ -17,6 +18,7 @@
         </a>
         <a
           class="bg-green-500 text-white p-3 rounded-md shadow-sm hover:bg-green-600 cursor-pointer"
+          (click)="openNewConsultationModal()"
         >
           <div class="flex items-center gap-4">
             <fa-icon
@@ -44,11 +46,11 @@
       </div>
       <div class="flex flex-col gap-4 flex-1">
         <app-dashboard-block>
-          <div class="flex gap-4">
+          <div class="flex gap-12">
             <div class="flex flex-1">
               <app-dashboard-block class="flex-1">
                 <full-calendar
-                  class="h-56"
+                  class="h-32"
                   [options]="calendarOptions"
                 ></full-calendar>
               </app-dashboard-block>
@@ -62,6 +64,9 @@
                 <h1 class="flex text-3xl font-bold py-2">
                   {{ consultationsByDate.length }}
                 </h1>
+              </app-dashboard-block>
+              <app-dashboard-block class="flex flex-1">
+                {{ date | date }}
               </app-dashboard-block>
               <app-dashboard-block class="flex flex-1">
                 {{ date | date }}

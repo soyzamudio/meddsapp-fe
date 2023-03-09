@@ -1,3 +1,4 @@
+import { ModalService } from './../shared/services/modal.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -64,11 +65,16 @@ export class DashboardComponent implements OnInit {
     },
   };
 
-  constructor(public patients: PatientService) {}
+  constructor(public patients: PatientService, private modalService: ModalService<any>) {}
 
   ngOnInit() {
     this.getConsultationsChart();
     this.consultationsByDate = this.getPatientsByDate(this.date);
+  }
+
+  async openNewConsultationModal(): Promise<void> {
+    const { NewConsultationComponent } = await import('../shared/components/new-consultation/new-consultation.component');
+    await this.modalService.open(NewConsultationComponent);
   }
 
   getPatientsToday() {
@@ -87,7 +93,7 @@ export class DashboardComponent implements OnInit {
     ) as ChartItem;
 
     const ctx = (consultationsRef as any).getContext('2d');
-    ctx.canvas.height = 250;
+    ctx.canvas.height = 258;
 
     const data = {
       labels: months.map((month) => `${month.slice(0, 3)}.`),
@@ -102,10 +108,11 @@ export class DashboardComponent implements OnInit {
       ],
     };
 
-    this.consultationChart = new Chart(consultationsRef, {
+    this.consultationChart = new Chart(ctx, {
       type: 'bar',
       data,
       options: {
+        responsive: true,
         plugins: {
           legend: {
             display: false,

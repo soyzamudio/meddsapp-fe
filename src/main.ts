@@ -1,6 +1,6 @@
 import { importProvidersFrom } from '@angular/core';
 import { bootstrapApplication, BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -13,8 +13,8 @@ bootstrapApplication(AppComponent, {
       RouterModule.forRoot(APP_ROUTES),
       FontAwesomeModule,
       BrowserModule,
-      BrowserAnimationsModule,
       FullCalendarModule
-    ])
+    ]),
+    provideAnimations(),
   ],
 }).catch(err => console.error(err));
