@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import {
   faCalendarCheck,
   faChartLine,
+  faSyringe,
+  faTriangleExclamation,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import Chart, { ChartItem } from 'chart.js/auto';
@@ -23,6 +25,8 @@ export class DashboardComponent implements OnInit {
   faUser = faUser;
   faChartLine = faChartLine;
   faCalendarCheck = faCalendarCheck;
+  faSyringe = faSyringe;
+  faTriangleExclamation = faTriangleExclamation;
   date = new Date();
 
   constructor(public patients: PatientService) {}

@@ -1,11 +1,11 @@
-<div class="flex flex-col bg-white py-4 px-6 rounded-md shadow gap-2">
-  <div class="flex items-center gap-2 text-gray-600" *ngIf="icon || title">
+<div class="flex flex-col bg-white p-4 rounded-md shadow gap-2">
+  <div class="flex items-center gap-2" *ngIf="icon || title">
     <fa-icon
-      class="text-xs py-2 px-3 bg-slate-100 rounded-lg"
+      class="text-xs py-1 px-[6px] bg-slate-100 rounded-lg"
       *ngIf="icon"
       [icon]="icon"
     ></fa-icon>
-    <h1 class="font-bold text-base capitalize" *ngIf="title">
+    <h1 class="font-bold text-base text-gray-600" *ngIf="title">
       {{ title }}
     </h1>
   </div>

@@ -98,7 +98,7 @@ export function generatePatients(n: number): Patient[] {
             chance.integer({ min: 80, max: 120 }),
           heartRate: chance.integer({ min: 60, max: 100 }),
           respiratoryRate: chance.integer({ min: 10, max: 20 }),
-          temperature: null,
+          temperature: chance.bool() ? chance.integer({ min: 35, max: 40 }) : null,
         },
       },
       {

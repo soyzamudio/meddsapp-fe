@@ -16,20 +16,6 @@
           <div class="flex gap-4 text-gray-400">
             <div
               class="flex gap-2 items-center"
-              *ngIf="patient.lifestyleInformation.diet"
-            >
-              <fa-icon class="text-sm" [icon]="faPlateWheat"></fa-icon>
-              <h2 class="text-sm">Dieta</h2>
-            </div>
-            <div
-              class="flex gap-2 items-center"
-              *ngIf="patient.lifestyleInformation.exercise"
-            >
-              <fa-icon class="text-sm" [icon]="faDumbbell"></fa-icon>
-              <h2 class="text-sm">Ejercicio</h2>
-            </div>
-            <div
-              class="flex gap-2 items-center"
               *ngIf="patient.lifestyleInformation.smoking"
             >
               <fa-icon class="text-sm" [icon]="faSmoking"></fa-icon>

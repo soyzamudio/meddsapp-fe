@@ -5,10 +5,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faAt,
   faClockRotateLeft,
-  faDumbbell,
   faHospital,
   faPhone,
-  faPlateWheat,
   faSmoking,
   faSyringe,
   faTablets,
@@ -18,10 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { DashboardBlockComponent } from './../../shared/components/dashboard-block/dashboard-block.component';
 import { PillComponent } from './../../shared/components/pill/pill.component';
-import {
-  BasicMedialInformationLabels,
-  Patient,
-} from './../../shared/interfaces/index';
+import { BasicMedialInformationLabels } from './../../shared/interfaces/index';
 import { AgePipe } from './../../shared/pipes/age.pipe';
 import { PatientService } from './../../shared/services/patient.service';
 
@@ -47,10 +42,8 @@ export class DetailsComponent {
   faHospital = faHospital;
   faTimeline = faTimeline;
   faClockRotateLeft = faClockRotateLeft;
-  faDumbbell = faDumbbell;
   faSmoking = faSmoking;
   faWineGlass = faWineGlass;
-  faPlateWheat = faPlateWheat;
   faUserPen = faUserPen;
   patientId = this.route.snapshot.params['id'];
   patient = this.patients.getPatientById(this.patientId) as any;
