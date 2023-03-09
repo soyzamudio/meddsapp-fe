@@ -1,4 +1,4 @@
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -8,15 +8,28 @@ import {
   faSyringe,
   faTriangleExclamation,
   faUser,
+  faUserCheck,
+  faUserPlus,
 } from '@fortawesome/free-solid-svg-icons';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { CalendarOptions } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import Chart, { ChartItem } from 'chart.js/auto';
 import { PatientService } from '../shared/services/patient.service';
 import { DashboardBlockComponent } from './../shared/components/dashboard-block/dashboard-block.component';
+import { Patient } from './../shared/interfaces/index';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, DashboardBlockComponent, RouterModule, BsDatepickerModule],
+  imports: [
+    CommonModule,
+    DashboardBlockComponent,
+    RouterModule,
+    FullCalendarModule,
+    FontAwesomeModule,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
@@ -27,17 +40,43 @@ export class DashboardComponent implements OnInit {
   faCalendarCheck = faCalendarCheck;
   faSyringe = faSyringe;
   faTriangleExclamation = faTriangleExclamation;
+  faUserPlus = faUserPlus;
+  faUserCheck = faUserCheck;
   date = new Date();
+  consultationsByDate: Patient[];
+  calendarOptions: CalendarOptions = {
+    initialView: 'dayGridWeek',
+    plugins: [dayGridPlugin, interactionPlugin],
+    selectable: true,
+    headerToolbar: false,
+    customButtons: {
+      today: {
+        text: 'Hoy',
+        click: () => {
+          this.date = new Date();
+          this.consultationsByDate = this.getPatientsByDate(this.date);
+        },
+      },
+    },
+    dateClick: (info: any) => {
+      this.date = info.date;
+      this.consultationsByDate = this.getPatientsByDate(this.date);
+    },
+  };
 
   constructor(public patients: PatientService) {}
 
   ngOnInit() {
     this.getConsultationsChart();
-    console.log(this.getPatientsToday());
+    this.consultationsByDate = this.getPatientsByDate(this.date);
   }
 
   getPatientsToday() {
     return this.patients.getPatientsWithAppointmentsToday();
+  }
+
+  getPatientsByDate(date: Date) {
+    return this.patients.getPatientsWithAppointmentsByDate(date);
   }
 
   getConsultationsChart() {
@@ -83,8 +122,8 @@ export class DashboardComponent implements OnInit {
               display: false,
             },
             ticks: {
-              callback: function(tick, index, array) {
-                return (index % 2) ? "" : tick;
+              callback: function (tick, index, array) {
+                return index % 2 ? '' : tick;
               },
             },
             beginAtZero: true,

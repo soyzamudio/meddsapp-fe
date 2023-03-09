@@ -108,6 +108,16 @@ export class PatientService {
     );
   }
 
+  getPatientsWithAppointmentsByDate(date: Date): Patient[] {
+    return this.patients.filter(
+      (patient) =>
+        patient.consultations?.find(
+          (consultation) =>
+            consultation.date.toDateString() === date.toDateString()
+        ) !== undefined
+    );
+  }
+
   addToRecentPatients(patient: Patient): void {
     if (!this.recentPatients) {
       this.recentPatients = [];

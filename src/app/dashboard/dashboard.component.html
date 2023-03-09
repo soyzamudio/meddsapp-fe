@@ -4,11 +4,28 @@
   >
     <div class="flex gap-4">
       <div class="flex flex-col flex-[0.15] gap-4">
-        <app-dashboard-block
-          title="Agendar cita"
-          [icon]="faCalendarCheck"
-          class="cursor-pointer"
-        ></app-dashboard-block>
+        <a
+          class="bg-indigo-500 text-white p-3 rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer"
+        >
+          <div class="flex items-center gap-4">
+            <fa-icon
+              class="text-xs py-1 px-[6px] bg-white rounded-lg text-indigo-600"
+              [icon]="faUserCheck"
+            ></fa-icon>
+            <h1 class="font-bold text-base">Recibir paciente</h1>
+          </div>
+        </a>
+        <a
+          class="bg-green-500 text-white p-3 rounded-md shadow-sm hover:bg-green-600 cursor-pointer"
+        >
+          <div class="flex items-center gap-4">
+            <fa-icon
+              class="text-xs py-1 px-[6px] bg-white rounded-lg text-green-600"
+              [icon]="faUserPlus"
+            ></fa-icon>
+            <h1 class="font-bold text-base">Agendar paciente</h1>
+          </div>
+        </a>
         <app-dashboard-block title="Citas hoy" [icon]="faCalendarCheck">
           <h1 class="flex text-3xl font-bold py-2">
             {{ getPatientsToday().length }}
@@ -28,16 +45,28 @@
       <div class="flex flex-col gap-4 flex-1">
         <app-dashboard-block>
           <div class="flex gap-4">
-            <div class="flex flex-1 justify-center">
-              <app-dashboard-block class="flex">
-                <bs-datepicker-inline
-                  [bsValue]="date"
-                  [bsConfig]="{ isAnimated: false }"
-                  (bsValueChange)="date = $event"
-                ></bs-datepicker-inline>
+            <div class="flex flex-1">
+              <app-dashboard-block class="flex-1">
+                <full-calendar
+                  class="h-56"
+                  [options]="calendarOptions"
+                ></full-calendar>
               </app-dashboard-block>
             </div>
-            <div class="flex-1">{{ date | date }}</div>
+            <div class="flex flex-1 gap-8">
+              <app-dashboard-block
+                class="flex flex-1"
+                title="Pacientes el {{ date | date }}"
+                [icon]="faUser"
+              >
+                <h1 class="flex text-3xl font-bold py-2">
+                  {{ consultationsByDate.length }}
+                </h1>
+              </app-dashboard-block>
+              <app-dashboard-block class="flex flex-1">
+                {{ date | date }}
+              </app-dashboard-block>
+            </div>
           </div>
         </app-dashboard-block>
         <!-- <app-dashboard-block title="Promedio de pacientes"

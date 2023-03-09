@@ -41,6 +41,13 @@ export function generatePatients(n: number): Patient[] {
       patientId: i.toString(),
       date: new Date(),
     } : null,
+    consultations: Array.from(
+      { length: chance.integer({ min: 0, max: 10 }) },
+      (_, index) => ({
+        patientId: i.toString(),
+        date: new Date(chance.date({ year: 2023 })),
+      })
+    ).sort((a, b) => +new Date(b.date) - +new Date(a.date)),
     active: chance.bool(),
     medicalHistory: {
       conditions: Array.from(
