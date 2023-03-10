@@ -31,7 +31,7 @@ export class PatientsComponent {
   faEdit = faEdit;
   faTrash = faTrash;
   faTimes = faTimes;
-  patients = this.patientService.patients;
+  patients = this.patientService.getPatients();
   searchedValue = '';
 
   constructor(public patientService: PatientService) {}

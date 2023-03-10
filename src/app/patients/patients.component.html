@@ -34,7 +34,7 @@
         <button
           class="flex items-center justify-center h-4 w-4 border rounded-full bg-white text-gray-500 text-xs"
           (click)="
-            patients = patientService.patients;
+            patients = patientService.getPatients();
             searchedValue = '';
             formGroup.reset()
           "
