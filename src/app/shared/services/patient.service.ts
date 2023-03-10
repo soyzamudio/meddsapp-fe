@@ -20,8 +20,9 @@ export class PatientService {
     if (limit) {
       return this.patients.slice(offset, offset + limit);
     }
-
-    return this.patients;
+    return this.patients.sort((a: Patient, b: Patient) => {
+      return a['name'].localeCompare(b['name']);
+    });
   }
 
   getActivePatients(): Patient[] {
