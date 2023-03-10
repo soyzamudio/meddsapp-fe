@@ -17,5 +17,6 @@ export function generateConsultations(n: number): Consultation[] {
     ),
     time: `${chance.integer({ min: 7, max: 17})}:00`,
     notes: chance.paragraph(),
+    confirmed: false,
   }));
 }

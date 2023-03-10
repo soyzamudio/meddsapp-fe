@@ -22,7 +22,9 @@ export class ConsultationService {
         consultation.date.getMonth() === today.getMonth() &&
         consultation.date.getFullYear() === today.getFullYear()
       );
-    });
+    }).sort(function(a,b){
+      return (new Date(a.date) as any) - (new Date(b.date) as any);
+    })
   }
 
   getConsultationsByDate(date: Date): Consultation[] {
@@ -42,5 +44,30 @@ export class ConsultationService {
     });
 
     return timeAvailable;
+  }
+
+  confirmConsultation(consultation: Consultation): void {
+    const index = this.consultations.findIndex(
+      c => c.date === consultation.date
+    );
+
+    if (index === -1) {
+      throw new Error('Consultation not found');
+    }
+
+    consultation.confirmed = true;
+    this.consultations[index] = consultation;
+  }
+
+  cancelConsultation(consultation: Consultation): void {
+    const index = this.consultations.findIndex(
+      c => c.date === consultation.date
+    );
+
+    if (index === -1) {
+      throw new Error('Consultation not found');
+    }
+
+    this.consultations.splice(index, 1);
   }
 }

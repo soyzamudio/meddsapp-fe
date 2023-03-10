@@ -5,7 +5,7 @@ import { PatientService } from './../../services/patient.service';
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../modal/modal.component';
-import { faChevronDown } from '@fortawesome/pro-regular-svg-icons';
+import { faChevronDown, faUserPlus } from '@fortawesome/pro-regular-svg-icons';
 
 @Component({
   selector: 'app-new-consultation',
@@ -17,6 +17,7 @@ import { faChevronDown } from '@fortawesome/pro-regular-svg-icons';
 export class NewConsultationComponent {
   dropdownOpen = false;
   faChevronDown = faChevronDown;
+  faUserPlus = faUserPlus;
   selectedPatient: Patient;
   selectedTime: string;
   selectedDate: Date = new Date();
@@ -43,7 +44,6 @@ export class NewConsultationComponent {
     | undefined;
 
   constructor(public patientService: PatientService, private consultation: ConsultationService) {
-    console.log(this.consultation.getConsultationsByDate(new Date()));
     this.workTimes.forEach((time) => {
       if (this.consultation.isTimeAvailable(new Date(), time)) {
         this.availableTimes.push(time);
@@ -55,9 +55,12 @@ export class NewConsultationComponent {
     const timeArray = time.split(':');
     let hour = parseInt(timeArray[0], 10);
     const minutes = timeArray[1];
-    if (hour <= 12) {
+    if (hour < 12) {
       return `${hour}:${minutes} AM`;
     } else {
+      if (hour === 12) {
+        return `${hour}:${minutes} PM`;
+      }
       return `${hour - 12}:${minutes} PM`;
     }
   }
@@ -74,9 +77,10 @@ export class NewConsultationComponent {
       date: new Date(`${dateAsSting}, ${this.selectedTime}:00`),
       time: this.selectedTime,
       notes: this.selectedNotes || '',
+      confirmed: false,
     });
 
-    console.log(this.consultation.consultations);
+    this.close();
   }
 
   async close(): Promise<void> {

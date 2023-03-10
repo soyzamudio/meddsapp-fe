@@ -1,9 +1,7 @@
-import { ConsultationService } from './../shared/services/consultation.service';
-import { ModalService } from './../shared/services/modal.service';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faCalendarCheck,
   faChartLine,
@@ -13,16 +11,23 @@ import {
   faUserCheck,
   faUserPlus,
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faHospitalUser,
+  faXmark,
+} from '@fortawesome/pro-regular-svg-icons';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core';
+import esLocale from '@fullcalendar/core/locales/es';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import Chart, { ChartItem } from 'chart.js/auto';
+import { PillComponent } from '../shared/components/pill/pill.component';
 import { PatientService } from '../shared/services/patient.service';
 import { DashboardBlockComponent } from './../shared/components/dashboard-block/dashboard-block.component';
-import { Patient, Consultation } from './../shared/interfaces/index';
-import esLocale from '@fullcalendar/core/locales/es';
-import { generateConsultations } from '../shared/utils/consultations';
+import { Consultation } from './../shared/interfaces/index';
+import { ConsultationService } from './../shared/services/consultation.service';
+import { ModalService } from './../shared/services/modal.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,6 +38,7 @@ import { generateConsultations } from '../shared/utils/consultations';
     RouterModule,
     FullCalendarModule,
     FontAwesomeModule,
+    PillComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
@@ -41,11 +47,14 @@ export class DashboardComponent implements OnInit {
   consultationChart: any;
   faUser = faUser;
   faChartLine = faChartLine;
+  faHospitalUser = faHospitalUser;
   faCalendarCheck = faCalendarCheck;
   faSyringe = faSyringe;
   faTriangleExclamation = faTriangleExclamation;
   faUserPlus = faUserPlus;
   faUserCheck = faUserCheck;
+  faCheck = faCheck;
+  faXmark = faXmark;
   date = new Date();
   consultationsByDate: Consultation[];
   calendarOptions: CalendarOptions = {
@@ -72,7 +81,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     public patients: PatientService,
-    private consultations: ConsultationService,
+    public consultations: ConsultationService,
     private modalService: ModalService<any>
   ) {}
 
@@ -94,6 +103,17 @@ export class DashboardComponent implements OnInit {
 
   getConsultationsByDate(date: Date) {
     return this.consultations.getConsultationsByDate(date);
+  }
+
+  getTimeAMPM(time: string): string {
+    const timeArray = time.split(':');
+    let hour = parseInt(timeArray[0], 10);
+    const minutes = timeArray[1];
+    if (hour <= 12) {
+      return `${hour}:${minutes} AM`;
+    } else {
+      return `${hour - 12}:${minutes} PM`;
+    }
   }
 
   getConsultationsChart() {

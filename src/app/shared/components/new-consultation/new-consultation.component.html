@@ -12,7 +12,7 @@
           <span
             class="text-sm leading-none text-gray-400"
             *ngIf="!selectedPatient"
-            >Paciente</span
+            >Elegir paciente</span
           >
           <span class="text-sm leading-none" *ngIf="selectedPatient">{{
             selectedPatient.name
@@ -54,11 +54,11 @@
         (keyup)="selectedNotes = notes.value.trim()"
       ></textarea>
     </div>
-    <div class="flex w-full justify-start gap-2">
+    <div class="flex w-full justify-start gap-4">
       <div class="flex-1 bg-gray-100">hi</div>
-      <div class="flex flex-wrap items-center flex-1 gap-2">
+      <div class="flex flex-wrap items-center justify-end flex-1 gap-2">
         <button
-          class="flex flex-[1,1,50%] w-[45%] items-center justify-center rounded shadow-sm text-sm py-2 hover:bg-indigo-500 hover:text-white disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+          class="flex flex-[1,1,50%] w-[48%] items-center justify-center rounded shadow-sm text-sm py-2 hover:bg-indigo-500 hover:text-white disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
           *ngFor="let time of workTimes"
           [disabled]="timeIsDisabled(time)"
           (click)="selectedTime = time"
@@ -67,21 +67,39 @@
         </button>
       </div>
     </div>
-    <div class="flex flex-1 justify-end">
-      <button class="btn btn-primary" (click)="setConsultation()">
-        Agendar
-        {{ selectedPatient ? "a " + selectedPatient.name : null }}
-        {{
-          selectedPatient && selectedDate
-            ? "el " + (selectedDate | date : "d/M")
-            : null
-        }}
-        {{
-          selectedPatient && selectedTime
-            ? "a las " + getTimeAMPM(selectedTime)
-            : null
-        }}
+    <div class="flex-1 w-full">
+      <button
+        class="bg-indigo-500 text-white p-3 rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer flex-1 w-full"
+        (click)="setConsultation()"
+      >
+        <div class="flex items-center justify-center gap-4 w-full">
+          <fa-icon
+            class="text-xs py-1 px-[6px] bg-white rounded-lg text-indigo-600"
+            [icon]="faUserPlus"
+          ></fa-icon>
+          <h1 class="font-bold text-base">
+            Agendar
+            {{ selectedPatient ? "a " + selectedPatient.name : null }}
+            {{
+              selectedPatient && selectedDate
+                ? "el " + (selectedDate | date : "d/M")
+                : null
+            }}
+            {{
+              selectedPatient && selectedTime
+                ? "a las " + getTimeAMPM(selectedTime)
+                : null
+            }}
+          </h1>
+        </div>
       </button>
+      <!-- <button
+        class=""
+        [disabled]="!selectedPatient && !selectedDate && !selectedTime"
+        (submit)="setConsultation()"
+      >
+
+      </button> -->
     </div>
   </div>
 </app-modal>

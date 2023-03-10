@@ -94,6 +94,7 @@ export interface Consultation {
   date: Date;
   time: string;
   notes?: string;
+  confirmed?: boolean;
 }
 
 export interface LifestyleInformation {
