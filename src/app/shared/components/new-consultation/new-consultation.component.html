@@ -1,53 +1,87 @@
 <app-modal #NewConsultationModal>
-  <div class="flex flex-col gap-4 items-start">
-    <div class="flex-1">
+  <div class="flex flex-col gap-6 items-start">
+    <div class="flex">
       <h1 class="text-xl font-bold">Nueva Consulta</h1>
     </div>
-    <div class="flex-1 w-full">
-      <div class="relative">
+    <div class="flex w-full">
+      <div class="relative w-full">
         <button
-          class="flex items-center h-8 pl-3 pr-2 border focus:outline-none"
+          class="flex w-full items-center justify-between h-10 pl-3 pr-2 border focus:outline-none"
           (click)="dropdownOpen = !dropdownOpen"
         >
-          <span class="text-sm leading-none">Paciente</span>
-          <svg
-            class="w-4 h-4 mt-px ml-2"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+          <span
+            class="text-sm leading-none text-gray-400"
+            *ngIf="!selectedPatient"
+            >Paciente</span
           >
-            <path
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
-          </svg>
+          <span class="text-sm leading-none" *ngIf="selectedPatient">{{
+            selectedPatient.name
+          }}</span>
+          <fa-icon
+            [icon]="faChevronDown"
+            class="mt-px ml-2 text-xs"
+            [ngClass]="{ 'transform rotate-180': dropdownOpen }"
+          ></fa-icon>
         </button>
         <div
-          class="absolute flex flex-col w-40 mt-1 border shadow"
+          class="absolute flex flex-col w-full mt-1 border shadow bg-white z-50"
           *ngIf="dropdownOpen"
         >
           <input
             class="flex items-center h-8 px-3 text-sm border-b focus:outline-none"
+            #searchPatient
             type="search"
-            name=""
-            id=""
-            placeholder="Search…"
+            placeholder="Buscar paciente"
+            (keyup)="
+              patientsList = patientService.searchPatients(searchPatient.value)
+            "
           />
           <a
             class="flex items-center h-8 px-3 text-sm hover:bg-gray-50 cursor-pointer"
-            (click)="dropdownOpen = false"
-            >Item 1</a
+            *ngFor="let patient of patientsList"
+            (click)="selectedPatient = patient; dropdownOpen = false"
           >
+            {{ patient.name }}
+          </a>
         </div>
       </div>
     </div>
-    <div class="flex-1 w-full">
-      <textarea class="w-full" placeholder="Notas"></textarea>
+    <div class="flex w-full">
+      <textarea
+        #notes
+        class="w-full p-3 border focus:outline-none"
+        placeholder="Notas"
+        (keyup)="selectedNotes = notes.value.trim()"
+      ></textarea>
     </div>
-    <div class="flex-1 w-full justify-start flex">App</div>
-    <div class="flex-1">
-      <button class="btn btn-primary">Guardar</button>
+    <div class="flex w-full justify-start gap-2">
+      <div class="flex-1 bg-gray-100">hi</div>
+      <div class="flex flex-wrap items-center flex-1 gap-2">
+        <button
+          class="flex flex-[1,1,50%] w-[45%] items-center justify-center rounded shadow-sm text-sm py-2 hover:bg-indigo-500 hover:text-white disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+          *ngFor="let time of workTimes"
+          [disabled]="timeIsDisabled(time)"
+          (click)="selectedTime = time"
+        >
+          {{ getTimeAMPM(time) }}
+        </button>
+      </div>
+    </div>
+    <div class="flex flex-1 justify-end">
+      <button class="btn btn-primary" (click)="setConsultation()">
+        Agendar
+        {{ selectedPatient ? "a " + selectedPatient.name : null }}
+        {{
+          selectedPatient && selectedDate
+            ? "el " + (selectedDate | date : "d/M")
+            : null
+        }}
+        {{
+          selectedPatient && selectedTime
+            ? "a las " + getTimeAMPM(selectedTime)
+            : null
+        }}
+      </button>
     </div>
   </div>
 </app-modal>

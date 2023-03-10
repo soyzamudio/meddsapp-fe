@@ -90,7 +90,9 @@ export interface DiagnosticTestResult {
 
 export interface Consultation {
   patientId: string;
+  title: string;
   date: Date;
+  time: string;
   notes?: string;
 }
 

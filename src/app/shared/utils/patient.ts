@@ -34,18 +34,24 @@ export function generatePatients(n: number): Patient[] {
       })
     ),
     lastConsultation: chance.bool() ? {
+      title: chance.name(),
       patientId: i.toString(),
       date: new Date(chance.date({ year: 2022 })),
+      time: `${chance.hour()}:${chance.minute()}}`,
     } : null,
     nextConsultation: chance.bool() ? {
+      title: chance.name(),
       patientId: i.toString(),
       date: new Date(),
+      time: `${chance.hour()}:${chance.minute()}}`,
     } : null,
     consultations: Array.from(
       { length: chance.integer({ min: 0, max: 10 }) },
       (_, index) => ({
+        title: chance.name(),
         patientId: i.toString(),
         date: new Date(chance.date({ year: 2023 })),
+        time: `${chance.hour()}:${chance.minute()}}`,
       })
     ).sort((a, b) => +new Date(b.date) - +new Date(a.date)),
     active: chance.bool(),

@@ -16,6 +16,14 @@ export class PatientService {
 
   constructor() {}
 
+  getPatients(limit?: number, offset = 0): Patient[] {
+    if (limit) {
+      return this.patients.slice(offset, offset + limit);
+    }
+
+    return this.patients;
+  }
+
   getActivePatients(): Patient[] {
     return this.patients.filter((patient) => patient.active);
   }
@@ -116,6 +124,10 @@ export class PatientService {
             consultation.date.toDateString() === date.toDateString()
         ) !== undefined
     );
+  }
+
+  getRecentPatients(): Patient[] {
+    return this.recentPatients || [];
   }
 
   addToRecentPatients(patient: Patient): void {

@@ -6,7 +6,7 @@ import { generateConsultations } from '../utils/consultations';
   providedIn: 'root'
 })
 export class ConsultationService {
-  consultations = generateConsultations(50);
+  consultations: Consultation[] = [];
 
   constructor() { }
 
@@ -33,5 +33,14 @@ export class ConsultationService {
         consultation.date.getFullYear() === date.getFullYear()
       );
     });
+  }
+
+  isTimeAvailable(date: Date, time: string): boolean {
+    const consultations = this.getConsultationsByDate(date);
+    const timeAvailable = consultations.every(consultation => {
+      return consultation.time !== time;
+    });
+
+    return timeAvailable;
   }
 }
