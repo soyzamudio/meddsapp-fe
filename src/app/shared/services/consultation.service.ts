@@ -1,3 +1,4 @@
+import { PatientService } from './patient.service';
 import { Injectable } from '@angular/core';
 import { Consultation } from '../interfaces';
 import { generateConsultations } from '../utils/consultations';
@@ -8,10 +9,19 @@ import { generateConsultations } from '../utils/consultations';
 export class ConsultationService {
   consultations: Consultation[] = [];
 
-  constructor() { }
+  constructor(private patientService: PatientService) { }
 
   createConsultation(consultation: Consultation) {
     this.consultations.push(consultation);
+    const patient = this.patientService.getPatientById(consultation.patientId);
+    if (!patient) {
+      throw new Error('Patient not found');
+    }
+    if (!patient.consultations) {
+      patient.consultations = [];
+    }
+    patient.consultations.push(consultation);
+    patient.nextConsultation = consultation;
   }
 
   getTodayConsultations(): Consultation[] {
@@ -44,6 +54,18 @@ export class ConsultationService {
     });
 
     return timeAvailable;
+  }
+
+  getTodayConfirmedConsultations(): Consultation[] {
+    return this.getTodayConsultations().filter(consultation => {
+      return consultation.confirmed;
+    });
+  }
+
+  getTodayUnconfirmedConsultations(): Consultation[] {
+    return this.getTodayConsultations().filter(consultation => {
+      return !consultation.confirmed;
+    });
   }
 
   confirmConsultation(consultation: Consultation): void {

@@ -7,6 +7,31 @@ import { CommonModule } from '@angular/common';
 import { ModalComponent } from '../modal/modal.component';
 import { faChevronDown, faUserPlus } from '@fortawesome/pro-regular-svg-icons';
 
+const workTimes = (workHours: string[], intervals: number) => {
+  // create an array of times between workHours (work hours is an array of two strings) with intervals per minute
+  const [start, end] = workHours;
+  const [startHour, startMinute] = start.split(':').map(Number);
+  const [endHour, endMinute] = end.split(':').map(Number);
+  const times = [];
+  for (let hour = startHour; hour <= endHour; hour++) {
+    for (let minute = 0; minute < 60; minute += intervals) {
+      if (hour === startHour && minute < startMinute) {
+        continue;
+      }
+      if (hour === endHour && minute > endMinute) {
+        continue;
+      }
+      if (minute === 0) {
+        times.push(`${hour}:00`);
+      } else {
+        times.push(`${hour}:${minute}`);
+      }
+    }
+  }
+
+  console.log(times);
+  return times;
+}
 @Component({
   selector: 'app-new-consultation',
   standalone: true,
@@ -23,21 +48,8 @@ export class NewConsultationComponent {
   selectedDate: Date = new Date();
   selectedNotes: string;
   availableTimes: string[] = [];
-  workTimes = [
-    '8:00',
-    '9:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
-    '18:00',
-    '19:00',
-    '20:00',
-  ];
+  workHours = ['8:00', '20:00'];
+  workTimes = workTimes(this.workHours, 15);
   patientsList = this.patientService.getRecentPatients();
   @ViewChild('NewConsultationModal') modal:
     | ModalComponent<NewConsultationComponent>

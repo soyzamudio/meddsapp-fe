@@ -1,12 +1,12 @@
-import { ConsultationService } from './../shared/services/consultation.service';
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
-import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { generateConsultations } from '../shared/utils/consultations';
+import { ConsultationService } from './../shared/services/consultation.service';
+import { ModalService } from './../shared/services/modal.service';
 
 @Component({
   selector: 'app-schedule',
@@ -24,17 +24,24 @@ export class ScheduleComponent {
     editable: true,
     headerToolbar: {
       start: 'title',
-      end: 'custom1 prevYear,prev,next,nextYear'
+      end: 'custom1 today prevYear,prev,next,nextYear'
     },
     customButtons: {
       custom1: {
-        text: 'custom 1',
-        click: function() {
-          alert('clicked custom button 1!');
+        text: 'Agendar paciente',
+        click: () => {
+          this.openNewConsultationModal();
         }
       },
     }
   };
 
-  constructor(private consultation: ConsultationService) {}
+  constructor(private consultation: ConsultationService, private modalService: ModalService<any>) {}
+
+  async openNewConsultationModal(): Promise<void> {
+    const { NewConsultationComponent } = await import(
+      '../shared/components/new-consultation/new-consultation.component'
+    );
+    await this.modalService.open(NewConsultationComponent);
+  }
 }

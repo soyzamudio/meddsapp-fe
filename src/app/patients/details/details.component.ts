@@ -1,3 +1,5 @@
+import { ModalService } from './../../shared/services/modal.service';
+import { faUserPlus } from '@fortawesome/pro-regular-svg-icons';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -45,13 +47,18 @@ export class DetailsComponent {
   faSmoking = faSmoking;
   faWineGlass = faWineGlass;
   faUserPen = faUserPen;
+  faUserPlus = faUserPlus;
   patientId = this.route.snapshot.params['id'];
   patient = this.patients.getPatientById(this.patientId) as any;
   basicInformationIndex = 0;
   today = new Date();
   keys = Object.keys;
 
-  constructor(private route: ActivatedRoute, private patients: PatientService) {
+  constructor(
+    private route: ActivatedRoute,
+    private patients: PatientService,
+    private modalService: ModalService<any>
+  ) {
     console.log(this.patient);
   }
 
@@ -70,5 +77,12 @@ export class DetailsComponent {
 
   onBasicMedicalInformationChange(index: string) {
     this.basicInformationIndex = +index;
+  }
+
+  async openNewConsultationModal(): Promise<void> {
+    const { NewConsultationComponent } = await import(
+      '../../shared/components/new-consultation/new-consultation.component'
+    );
+    await this.modalService.open(NewConsultationComponent);
   }
 }

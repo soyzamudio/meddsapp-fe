@@ -56,11 +56,16 @@
     </div>
     <div class="flex w-full justify-start gap-4">
       <div class="flex-1 bg-gray-100">hi</div>
-      <div class="flex flex-wrap items-center justify-end flex-1 gap-2">
+      <div
+        class="flex flex-wrap items-center justify-end flex-1 gap-2 h-[300px] overflow-y-scroll"
+      >
         <button
           class="flex flex-[1,1,50%] w-[48%] items-center justify-center rounded shadow-sm text-sm py-2 hover:bg-indigo-500 hover:text-white disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
           *ngFor="let time of workTimes"
           [disabled]="timeIsDisabled(time)"
+          [ngClass]="{
+            'bg-indigo-500 text-white': selectedTime === time
+          }"
           (click)="selectedTime = time"
         >
           {{ getTimeAMPM(time) }}
@@ -69,7 +74,8 @@
     </div>
     <div class="flex-1 w-full">
       <button
-        class="bg-indigo-500 text-white p-3 rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer flex-1 w-full"
+        class="bg-indigo-500 text-white p-3 rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer flex-1 w-full disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+        [disabled]="!selectedPatient || !selectedDate || !selectedTime"
         (click)="setConsultation()"
       >
         <div class="flex items-center justify-center gap-4 w-full">
@@ -93,13 +99,6 @@
           </h1>
         </div>
       </button>
-      <!-- <button
-        class=""
-        [disabled]="!selectedPatient && !selectedDate && !selectedTime"
-        (submit)="setConsultation()"
-      >
-
-      </button> -->
     </div>
   </div>
 </app-modal>

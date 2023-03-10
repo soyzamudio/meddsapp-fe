@@ -53,18 +53,30 @@
                   {{ consultationsByDate.length }}
                 </h1>
               </app-dashboard-block>
-              <app-dashboard-block class="flex flex-1">
-                {{ date | date }}
+              <app-dashboard-block
+                class="flex flex-1"
+                title="Atendidos"
+                [icon]="faUserCheck"
+              >
+                <h1 class="flex text-3xl font-bold py-2">
+                  {{ consultations.getTodayConfirmedConsultations().length }}
+                </h1>
               </app-dashboard-block>
-              <app-dashboard-block class="flex flex-1">
-                {{ date | date }}
+              <app-dashboard-block
+                class="flex flex-1"
+                title="Por atender"
+                [icon]="faUserXmark"
+              >
+                <h1 class="flex text-3xl font-bold py-2">
+                  {{ consultations.getTodayUnconfirmedConsultations().length }}
+                </h1>
               </app-dashboard-block>
             </div>
           </div>
         </app-dashboard-block>
         <div>
           <app-dashboard-block
-            title="pacientes del día"
+            title="Pacientes del día"
             [icon]="faHospitalUser"
           >
             <div class="flex flex-col">
@@ -83,7 +95,7 @@
                 <div class="flex flex-1 justify-end">Acciones</div>
               </div>
               <div
-                class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm"
+                class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm items-center"
                 *ngFor="
                   let consultation of consultations.getTodayConsultations();
                   let last = last
@@ -128,7 +140,7 @@
 
         <div class="flex gap-4">
           <div class="flex-1">
-            <app-dashboard-block title="pacientes por mes" [icon]="faChartLine">
+            <app-dashboard-block title="Pacientes por mes" [icon]="faChartLine">
               <canvas id="monthly-consultations">{{
                 consultationChart
               }}</canvas>

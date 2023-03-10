@@ -10,6 +10,7 @@ import {
   faUser,
   faUserCheck,
   faUserPlus,
+  faUserXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faCheck,
@@ -55,6 +56,7 @@ export class DashboardComponent implements OnInit {
   faUserCheck = faUserCheck;
   faCheck = faCheck;
   faXmark = faXmark;
+  faUserXmark = faUserXmark;
   date = new Date();
   consultationsByDate: Consultation[];
   calendarOptions: CalendarOptions = {
