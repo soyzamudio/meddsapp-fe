@@ -1,8 +1,12 @@
+import { ConsultationService } from './../shared/services/consultation.service';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import dayGridPlugin from '@fullcalendar/daygrid';
+import esLocale from '@fullcalendar/core/locales/es';
+import interactionPlugin from '@fullcalendar/interaction';
+import { generateConsultations } from '../shared/utils/consultations';
 
 @Component({
   selector: 'app-schedule',
@@ -13,8 +17,11 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 })
 export class ScheduleComponent {
   calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin, interactionPlugin],
+    locale: esLocale,
     initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin],
+    events: this.consultation.consultations,
+    editable: true,
     headerToolbar: {
       start: 'title',
       end: 'custom1 prevYear,prev,next,nextYear'
@@ -28,4 +35,6 @@ export class ScheduleComponent {
       },
     }
   };
+
+  constructor(private consultation: ConsultationService) {}
 }

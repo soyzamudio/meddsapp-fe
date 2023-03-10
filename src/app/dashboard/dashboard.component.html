@@ -30,7 +30,7 @@
         </a>
         <app-dashboard-block title="Citas hoy" [icon]="faCalendarCheck">
           <h1 class="flex text-3xl font-bold py-2">
-            {{ getPatientsToday().length }}
+            {{ getConsultationsToday().length }}
           </h1>
         </app-dashboard-block>
         <app-dashboard-block title="Operaciones" [icon]="faTriangleExclamation">
@@ -58,7 +58,7 @@
             <div class="flex flex-1 gap-8">
               <app-dashboard-block
                 class="flex flex-1"
-                title="Pacientes el {{ date | date }}"
+                title="Pacientes ({{ date | date : 'd/M' }})"
                 [icon]="faUser"
               >
                 <h1 class="flex text-3xl font-bold py-2">

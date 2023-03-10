@@ -85,18 +85,18 @@ export class PatientService {
 
   getConsultationsPerMonth(): { [key: string]: number } {
     return {
-      January: chance.integer({ min: 5, max: 100 }),
-      February: chance.integer({ min: 5, max: 100 }),
-      March: chance.integer({ min: 5, max: 100 }),
-      April: chance.integer({ min: 5, max: 100 }),
-      May: chance.integer({ min: 5, max: 100 }),
-      June: chance.integer({ min: 5, max: 100 }),
-      July: chance.integer({ min: 5, max: 100 }),
-      August: chance.integer({ min: 5, max: 100 }),
-      September: chance.integer({ min: 5, max: 100 }),
-      October: chance.integer({ min: 5, max: 100 }),
-      November: chance.integer({ min: 5, max: 100 }),
-      December: chance.integer({ min: 5, max: 100 }),
+      Enero: chance.integer({ min: 5, max: 100 }),
+      Febrero: chance.integer({ min: 5, max: 100 }),
+      Marzo: chance.integer({ min: 5, max: 100 }),
+      Abril: chance.integer({ min: 5, max: 100 }),
+      Mayo: chance.integer({ min: 5, max: 100 }),
+      Junio: chance.integer({ min: 5, max: 100 }),
+      Julio: chance.integer({ min: 5, max: 100 }),
+      Agosto: chance.integer({ min: 5, max: 100 }),
+      Septiembre: chance.integer({ min: 5, max: 100 }),
+      Octubre: chance.integer({ min: 5, max: 100 }),
+      Noviembre: chance.integer({ min: 5, max: 100 }),
+      Diciembre: chance.integer({ min: 5, max: 100 }),
     };
   }
 

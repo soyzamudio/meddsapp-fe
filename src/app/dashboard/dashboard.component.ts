@@ -1,3 +1,4 @@
+import { ConsultationService } from './../shared/services/consultation.service';
 import { ModalService } from './../shared/services/modal.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
@@ -19,7 +20,9 @@ import interactionPlugin from '@fullcalendar/interaction';
 import Chart, { ChartItem } from 'chart.js/auto';
 import { PatientService } from '../shared/services/patient.service';
 import { DashboardBlockComponent } from './../shared/components/dashboard-block/dashboard-block.component';
-import { Patient } from './../shared/interfaces/index';
+import { Patient, Consultation } from './../shared/interfaces/index';
+import esLocale from '@fullcalendar/core/locales/es';
+import { generateConsultations } from '../shared/utils/consultations';
 
 @Component({
   selector: 'app-dashboard',
@@ -44,45 +47,53 @@ export class DashboardComponent implements OnInit {
   faUserPlus = faUserPlus;
   faUserCheck = faUserCheck;
   date = new Date();
-  consultationsByDate: Patient[];
+  consultationsByDate: Consultation[];
   calendarOptions: CalendarOptions = {
+    locale: esLocale,
     initialView: 'dayGridWeek',
     plugins: [dayGridPlugin, interactionPlugin],
     selectable: true,
     headerToolbar: false,
+    events: this.consultations.consultations,
     customButtons: {
       today: {
         text: 'Hoy',
         click: () => {
           this.date = new Date();
-          this.consultationsByDate = this.getPatientsByDate(this.date);
+          this.consultationsByDate = this.getConsultationsByDate(this.date);
         },
       },
     },
     dateClick: (info: any) => {
       this.date = info.date;
-      this.consultationsByDate = this.getPatientsByDate(this.date);
+      this.consultationsByDate = this.getConsultationsByDate(this.date);
     },
   };
 
-  constructor(public patients: PatientService, private modalService: ModalService<any>) {}
+  constructor(
+    public patients: PatientService,
+    private consultations: ConsultationService,
+    private modalService: ModalService<any>
+  ) {}
 
   ngOnInit() {
     this.getConsultationsChart();
-    this.consultationsByDate = this.getPatientsByDate(this.date);
+    this.consultationsByDate = this.getConsultationsByDate(this.date);
   }
 
   async openNewConsultationModal(): Promise<void> {
-    const { NewConsultationComponent } = await import('../shared/components/new-consultation/new-consultation.component');
+    const { NewConsultationComponent } = await import(
+      '../shared/components/new-consultation/new-consultation.component'
+    );
     await this.modalService.open(NewConsultationComponent);
   }
 
-  getPatientsToday() {
-    return this.patients.getPatientsWithAppointmentsToday();
+  getConsultationsToday() {
+    return this.consultations.getTodayConsultations();
   }
 
-  getPatientsByDate(date: Date) {
-    return this.patients.getPatientsWithAppointmentsByDate(date);
+  getConsultationsByDate(date: Date) {
+    return this.consultations.getConsultationsByDate(date);
   }
 
   getConsultationsChart() {
@@ -96,7 +107,7 @@ export class DashboardComponent implements OnInit {
     ctx.canvas.height = 258;
 
     const data = {
-      labels: months.map((month) => `${month.slice(0, 3)}.`),
+      labels: months.map((month) => `${month.slice(0, 3)}`),
       datasets: [
         {
           data: months.map((month) => consultations[month]),

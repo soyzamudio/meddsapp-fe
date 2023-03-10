@@ -12,8 +12,10 @@
           <li>
             <a
               routerLink="/"
-              class="flex items-center text-gray-600 hover:text-indigo-500"
-              routerLinkActive="text-indigo-500 border-r border-indigo-500 px-7 border-r-4"
+              popper="Inicio"
+              [popperTrigger]="hover"
+              class="flex items-center text-gray-600 hover:text-indigo-500 px-7"
+              routerLinkActive="text-indigo-500 border-r border-indigo-500 border-r-4"
               [routerLinkActiveOptions]="{ exact: true }"
             >
               <fa-icon class="w-5 text-xl" [icon]="faHouseMedical"></fa-icon>
@@ -22,8 +24,10 @@
           <li>
             <a
               routerLink="/pacientes"
-              class="flex items-center text-gray-600 hover:text-indigo-500"
-              routerLinkActive="text-indigo-500 border-r border-indigo-500 px-7 border-r-4"
+              popper="Pacientes"
+              [popperTrigger]="hover"
+              class="flex items-center text-gray-600 hover:text-indigo-500 px-7"
+              routerLinkActive="text-indigo-500 border-r border-indigo-500 border-r-4"
               [routerLinkActiveOptions]="{ exact: true }"
             >
               <fa-icon class="w-5 text-xl" [icon]="faUserDoctor"></fa-icon>
@@ -32,8 +36,10 @@
           <li>
             <a
               routerLink="/calendario"
-              class="flex items-center text-gray-600 hover:text-indigo-500"
-              routerLinkActive="text-indigo-500 border-r border-indigo-500 px-7 border-r-4"
+              popper="Calendario"
+              [popperTrigger]="hover"
+              class="flex items-center text-gray-600 hover:text-indigo-500 px-7"
+              routerLinkActive="text-indigo-500 border-r border-indigo-500 border-r-4"
               [routerLinkActiveOptions]="{ exact: true }"
             >
               <fa-icon class="w-5 text-xl" [icon]="faCalendarPlus"></fa-icon>
@@ -42,8 +48,10 @@
           <li>
             <a
               routerLink="/chat"
-              class="flex items-center text-gray-600 hover:text-indigo-500"
-              routerLinkActive="text-indigo-500 border-r border-indigo-500 px-7 border-r-4"
+              popper="Mensajes"
+              [popperTrigger]="hover"
+              class="flex items-center text-gray-600 hover:text-indigo-500 px-7"
+              routerLinkActive="text-indigo-500 border-r border-indigo-500 border-r-4"
               [routerLinkActiveOptions]="{ exact: true }"
             >
               <fa-icon class="w-5 text-xl" [icon]="faCommentMedical"></fa-icon>
@@ -52,8 +60,11 @@
           <li>
             <a
               routerLink="/ajustes"
-              class="flex items-center text-gray-600 hover:text-indigo-500"
-              routerLinkActive="text-indigo-500 border-r border-indigo-500 px-7 border-r-4"
+              popper="Ajustes"
+              [popperTrigger]="hover"
+              [popperApplyClass]="'bg-indigo-500 text-white'"
+              class="flex items-center text-gray-600 hover:text-indigo-500 px-7"
+              routerLinkActive="text-indigo-500 border-r border-indigo-500 border-r-4"
               [routerLinkActiveOptions]="{ exact: true }"
             >
               <fa-icon class="w-5 text-xl" [icon]="faGear"></fa-icon>

@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "node_modules/ngx-popperjs/css/theme-white.css";
 
 .night-mode {
   filter: invert(1) hue-rotate(180deg);

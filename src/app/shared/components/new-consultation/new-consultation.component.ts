@@ -10,6 +10,7 @@ import { ModalComponent } from '../modal/modal.component';
   styleUrls: ['./new-consultation.component.scss'],
 })
 export class NewConsultationComponent {
+  dropdownOpen = false;
   @ViewChild('NewConsultationModal') modal:
     | ModalComponent<NewConsultationComponent>
     | undefined;
