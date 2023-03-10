@@ -22,6 +22,12 @@ export class ScheduleComponent {
     initialView: 'dayGridMonth',
     events: this.consultation.consultations,
     editable: true,
+    eventTimeFormat: {
+      hour: '2-digit',
+      minute: '2-digit',
+      meridiem: false,
+      hour12: true,
+    },
     headerToolbar: {
       start: 'title',
       end: 'custom1 today prevYear,prev,next,nextYear'

@@ -1,11 +1,12 @@
-import { ConsultationService } from './../../services/consultation.service';
-import { Patient } from './../../interfaces/index';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { PatientService } from './../../services/patient.service';
-import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalComponent } from '../modal/modal.component';
+import { Component, ViewChild } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronDown, faUserPlus } from '@fortawesome/pro-regular-svg-icons';
+import { NgxNotificationMsgModule, NgxNotificationMsgService, NgxNotificationStatusMsg } from 'ngx-notification-msg';
+import { ModalComponent } from '../modal/modal.component';
+import { Patient } from './../../interfaces/index';
+import { ConsultationService } from './../../services/consultation.service';
+import { PatientService } from './../../services/patient.service';
 
 const workTimes = (workHours: string[], intervals: number) => {
   // create an array of times between workHours (work hours is an array of two strings) with intervals per minute
@@ -28,14 +29,17 @@ const workTimes = (workHours: string[], intervals: number) => {
       }
     }
   }
-
-  console.log(times);
   return times;
-}
+};
 @Component({
   selector: 'app-new-consultation',
   standalone: true,
-  imports: [CommonModule, ModalComponent, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    ModalComponent,
+    FontAwesomeModule,
+    NgxNotificationMsgModule,
+  ],
   templateUrl: './new-consultation.component.html',
   styleUrls: ['./new-consultation.component.scss'],
 })
@@ -55,7 +59,11 @@ export class NewConsultationComponent {
     | ModalComponent<NewConsultationComponent>
     | undefined;
 
-  constructor(public patientService: PatientService, private consultation: ConsultationService) {
+  constructor(
+    public patientService: PatientService,
+    private consultation: ConsultationService,
+    private readonly notificationService: NgxNotificationMsgService
+  ) {
     this.workTimes.forEach((time) => {
       if (this.consultation.isTimeAvailable(new Date(), time)) {
         this.availableTimes.push(time);
@@ -91,6 +99,12 @@ export class NewConsultationComponent {
       notes: this.selectedNotes || '',
       confirmed: false,
     });
+
+    this.notificationService.open({
+      status: NgxNotificationStatusMsg.SUCCESS,
+      header: '¡Agendado!',
+      messages: [`La consulta de ${this.selectedPatient.name} ha sido agendada.`]
+   });
 
     this.close();
   }

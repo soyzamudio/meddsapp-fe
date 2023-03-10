@@ -65,6 +65,12 @@ export class DashboardComponent implements OnInit {
     plugins: [dayGridPlugin, interactionPlugin],
     selectable: true,
     headerToolbar: false,
+    eventTimeFormat: {
+      hour: '2-digit',
+      minute: '2-digit',
+      meridiem: false,
+      hour12: true,
+    },
     events: this.consultations.consultations,
     customButtons: {
       today: {
