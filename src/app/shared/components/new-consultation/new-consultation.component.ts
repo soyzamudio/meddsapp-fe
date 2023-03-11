@@ -1,8 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronDown, faUserPlus } from '@fortawesome/pro-regular-svg-icons';
-import { NgxNotificationMsgModule, NgxNotificationMsgService, NgxNotificationStatusMsg } from 'ngx-notification-msg';
+import {
+  NgxNotificationMsgModule,
+  NgxNotificationMsgService,
+  NgxNotificationStatusMsg,
+} from 'ngx-notification-msg';
+import { take } from 'rxjs';
 import { ModalComponent } from '../modal/modal.component';
 import { Patient } from './../../interfaces/index';
 import { ConsultationService } from './../../services/consultation.service';
@@ -58,6 +63,7 @@ export class NewConsultationComponent {
   @ViewChild('NewConsultationModal') modal:
     | ModalComponent<NewConsultationComponent>
     | undefined;
+  @ViewChildren('searchPatient') input: QueryList<any>;
 
   constructor(
     public patientService: PatientService,
@@ -71,17 +77,24 @@ export class NewConsultationComponent {
     });
   }
 
+  focusOnSearchPatient() {
+    this.input.changes
+      .pipe(take(1))
+      .subscribe((e) => e.first.nativeElement.focus());
+    // this.input.nativeElement.focus();
+  }
+
   getTimeAMPM(time: string): string {
     const timeArray = time.split(':');
     let hour = parseInt(timeArray[0], 10);
     const minutes = timeArray[1];
     if (hour < 12) {
-      return `${hour}:${minutes} AM`;
+      return `${hour}:${minutes}AM`;
     } else {
       if (hour === 12) {
-        return `${hour}:${minutes} PM`;
+        return `${hour}:${minutes}PM`;
       }
-      return `${hour - 12}:${minutes} PM`;
+      return `${hour - 12}:${minutes}PM`;
     }
   }
 
@@ -97,14 +110,16 @@ export class NewConsultationComponent {
       date: new Date(`${dateAsSting}, ${this.selectedTime}:00`),
       time: this.selectedTime,
       notes: this.selectedNotes || '',
-      confirmed: false,
+      status: 'scheduled',
     });
 
     this.notificationService.open({
       status: NgxNotificationStatusMsg.SUCCESS,
       header: '¡Agendado!',
-      messages: [`La consulta de ${this.selectedPatient.name} ha sido agendada.`]
-   });
+      messages: [
+        `La consulta de ${this.selectedPatient.name} ha sido agendada.`,
+      ],
+    });
 
     this.close();
   }

@@ -8,6 +8,7 @@ import {
   faGear,
   faHouseMedical,
   faMessageMedical,
+  faSquareDollar,
   faUserDoctorHair,
 } from '@fortawesome/pro-regular-svg-icons';
 import { NgxPopperjsModule, NgxPopperjsTriggers } from 'ngx-popperjs';
@@ -26,6 +27,7 @@ export class AppComponent {
   faMoon = faMoon;
   faUserDoctor = faUserDoctorHair;
   faLaptopMedical = faStaffSnake;
+  faSquareDollar = faSquareDollar;
   hover = NgxPopperjsTriggers.hover;
 
   toggleNightMode() {

@@ -1,0 +1,35 @@
+<div class="flex gap-2 select-none">
+  <div
+    class="flex flex-1 text-xs items-center justify-center py-1 bg-yellow-200 cursor-pointer"
+    (click)="onScheduledClick()"
+  >
+    Agendado
+  </div>
+  <div
+    class="flex flex-1 text-xs items-center justify-center py-1 cursor-pointer"
+    [class.bg-gray-50]="status === 'scheduled'"
+    [class.bg-green-300]="
+      status === 'waiting' || status === 'ongoing' || status === 'paid'
+    "
+    (click)="onWaitingClick()"
+  >
+    En espera
+  </div>
+  <div
+    class="flex flex-1 text-xs items-center justify-center py-1 cursor-pointer"
+    [class.bg-gray-50]="status === 'waiting' || status === 'scheduled'"
+    [class.bg-blue-300]="status === 'ongoing' || status === 'paid'"
+    (click)="onOngoingClick()"
+  >
+    En consulta
+  </div>
+  <div
+    class="flex flex-1 text-xs items-center justify-center py-1 cursor-pointer"
+    [class.bg-gray-50]="status !== 'paid'"
+    [class.bg-indigo-400]="status === 'paid'"
+    [class.text-white]="status === 'paid'"
+    (click)="onPaidClick()"
+  >
+    Pagado
+  </div>
+</div>

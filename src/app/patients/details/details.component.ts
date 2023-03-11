@@ -58,9 +58,7 @@ export class DetailsComponent {
     private route: ActivatedRoute,
     private patients: PatientService,
     private modalService: ModalService<any>
-  ) {
-    console.log(this.patient);
-  }
+  ) {}
 
   getLabel(key: string) {
     return BasicMedialInformationLabels[

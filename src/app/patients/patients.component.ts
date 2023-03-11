@@ -38,8 +38,6 @@ export class PatientsComponent {
 
   searchPatient() {
     this.searchedValue = this.formGroup.get('searchTerm')?.value as string;
-    console.log(this.searchedValue);
-
     this.patients = this.patientService.searchPatients(this.searchedValue);
   }
 }

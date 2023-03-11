@@ -59,6 +59,19 @@
           </li>
           <li>
             <a
+              routerLink="/reportes"
+              popper="Reportes"
+              [popperTrigger]="hover"
+              [popperApplyClass]="'bg-indigo-500 text-white'"
+              class="flex items-center text-gray-600 hover:text-indigo-500 px-7"
+              routerLinkActive="text-indigo-500 border-r border-indigo-500 border-r-4"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <fa-icon class="w-5 text-xl" [icon]="faSquareDollar"></fa-icon>
+            </a>
+          </li>
+          <li>
+            <a
               routerLink="/ajustes"
               popper="Ajustes"
               [popperTrigger]="hover"

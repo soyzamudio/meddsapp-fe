@@ -1,3 +1,4 @@
+import { StepperComponent } from './../shared/components/stepper/stepper.component';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -39,7 +40,7 @@ import { ModalService } from './../shared/services/modal.service';
     RouterModule,
     FullCalendarModule,
     FontAwesomeModule,
-    PillComponent
+    StepperComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
@@ -118,9 +119,9 @@ export class DashboardComponent implements OnInit {
     let hour = parseInt(timeArray[0], 10);
     const minutes = timeArray[1];
     if (hour <= 12) {
-      return `${hour}:${minutes} AM`;
+      return `${hour}:${minutes}AM`;
     } else {
-      return `${hour - 12}:${minutes} PM`;
+      return `${hour - 12}:${minutes}PM`;
     }
   }
 

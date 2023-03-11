@@ -7,7 +7,7 @@
       <div class="relative w-full">
         <button
           class="flex w-full items-center justify-between h-10 pl-3 pr-2 border focus:outline-none"
-          (click)="dropdownOpen = !dropdownOpen"
+          (click)="dropdownOpen = !dropdownOpen; focusOnSearchPatient()"
         >
           <span
             class="text-sm leading-none text-gray-400"
@@ -24,11 +24,11 @@
           ></fa-icon>
         </button>
         <div
-          class="absolute flex flex-col w-full mt-1 border shadow bg-white z-50"
+          class="absolute flex flex-col w-full top-0 border shadow bg-white z-50"
           *ngIf="dropdownOpen"
         >
           <input
-            class="flex items-center h-8 px-3 text-sm border-b focus:outline-none"
+            class="flex items-center h-10 px-3 text-sm border-b focus:outline-none"
             #searchPatient
             type="search"
             placeholder="Buscar paciente"
@@ -37,7 +37,7 @@
             "
           />
           <a
-            class="flex items-center h-8 px-3 text-sm hover:bg-gray-50 cursor-pointer"
+            class="flex items-center h-8 px-3 text-sm hover:bg-gray-50 cursor-pointer bg-white"
             *ngFor="let patient of patientsList"
             (click)="selectedPatient = patient; dropdownOpen = false"
           >

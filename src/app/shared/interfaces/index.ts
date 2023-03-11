@@ -94,7 +94,7 @@ export interface Consultation {
   date: Date;
   time: string;
   notes?: string;
-  confirmed?: boolean;
+  status?: 'scheduled' | 'waiting' | 'ongoing' | 'paid';
 }
 
 export interface LifestyleInformation {

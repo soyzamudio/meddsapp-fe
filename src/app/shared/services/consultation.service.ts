@@ -4,12 +4,21 @@ import { Consultation } from '../interfaces';
 import { generateConsultations } from '../utils/consultations';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConsultationService {
-  consultations: Consultation[] = [];
+  consultations: Consultation[] = [
+    {
+      patientId: '1',
+      date: new Date(),
+      notes: 'Patient is doing well',
+      time: '10:00',
+      title: 'John Doe',
+      status: 'scheduled',
+    },
+  ];
 
-  constructor(private patientService: PatientService) { }
+  constructor(private patientService: PatientService) {}
 
   createConsultation(consultation: Consultation) {
     this.consultations.push(consultation);
@@ -25,20 +34,22 @@ export class ConsultationService {
   }
 
   getTodayConsultations(): Consultation[] {
-    return this.consultations.filter(consultation => {
-      const today = new Date();
-      return (
-        consultation.date.getDate() === today.getDate() &&
-        consultation.date.getMonth() === today.getMonth() &&
-        consultation.date.getFullYear() === today.getFullYear()
-      );
-    }).sort(function(a,b){
-      return (new Date(a.date) as any) - (new Date(b.date) as any);
-    })
+    return this.consultations
+      .filter((consultation) => {
+        const today = new Date();
+        return (
+          consultation.date.getDate() === today.getDate() &&
+          consultation.date.getMonth() === today.getMonth() &&
+          consultation.date.getFullYear() === today.getFullYear()
+        );
+      })
+      .sort(function (a, b) {
+        return (new Date(a.date) as any) - (new Date(b.date) as any);
+      });
   }
 
   getConsultationsByDate(date: Date): Consultation[] {
-    return this.consultations.filter(consultation => {
+    return this.consultations.filter((consultation) => {
       return (
         consultation.date.getDate() === date.getDate() &&
         consultation.date.getMonth() === date.getMonth() &&
@@ -49,7 +60,7 @@ export class ConsultationService {
 
   isTimeAvailable(date: Date, time: string): boolean {
     const consultations = this.getConsultationsByDate(date);
-    const timeAvailable = consultations.every(consultation => {
+    const timeAvailable = consultations.every((consultation) => {
       return consultation.time !== time;
     });
 
@@ -57,33 +68,36 @@ export class ConsultationService {
   }
 
   getTodayConfirmedConsultations(): Consultation[] {
-    return this.getTodayConsultations().filter(consultation => {
-      return consultation.confirmed;
+    return this.getTodayConsultations().filter((consultation) => {
+      return consultation.status === 'paid';
     });
   }
 
   getTodayUnconfirmedConsultations(): Consultation[] {
-    return this.getTodayConsultations().filter(consultation => {
-      return !consultation.confirmed;
+    return this.getTodayConsultations().filter((consultation) => {
+      return consultation.status !== 'paid';
     });
   }
 
-  confirmConsultation(consultation: Consultation): void {
+  consultationStatusChange(
+    consultation: Consultation,
+    status: 'scheduled' | 'waiting' | 'ongoing' | 'paid' | undefined
+  ): void {
     const index = this.consultations.findIndex(
-      c => c.date === consultation.date
+      (c) => c.date === consultation.date
     );
 
     if (index === -1) {
       throw new Error('Consultation not found');
     }
 
-    consultation.confirmed = true;
+    consultation.status = status;
     this.consultations[index] = consultation;
   }
 
   cancelConsultation(consultation: Consultation): void {
     const index = this.consultations.findIndex(
-      c => c.date === consultation.date
+      (c) => c.date === consultation.date
     );
 
     if (index === -1) {

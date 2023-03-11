@@ -91,11 +91,10 @@
               >
                 <div class="flex-1">Paciente</div>
                 <div class="flex-1">Hora</div>
-                <div class="flex-1">Asistida</div>
-                <div class="flex flex-1 justify-end">Acciones</div>
+                <div class="flex-[50%]">Progreso</div>
               </div>
               <div
-                class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm items-center"
+                class="flex px-4 py-2 -mx-4 text-sm items-center"
                 *ngFor="
                   let consultation of consultations.getTodayConsultations();
                   let last = last
@@ -103,35 +102,37 @@
                 [class.border-b]="!last"
               >
                 <div class="flex-1 font-bold">{{ consultation.title }}</div>
-                <div class="flex-1">{{ getTimeAMPM(consultation.time) }}</div>
                 <div class="flex-1">
-                  <app-pill
-                    class="flex"
-                    [active]="consultation.confirmed ? true : false"
-                  >
-                    <div
-                      class="h-2 w-2 rounded-full"
-                      [class.bg-green-500]="consultation.confirmed"
-                      [class.bg-red-500]="!consultation.confirmed"
-                    ></div>
-                    <div>
-                      {{ consultation.confirmed ? "Atendido" : "No atendido" }}
-                    </div>
-                  </app-pill>
+                  {{ getTimeAMPM(consultation.time) }}
                 </div>
-                <div class="flex flex-1 gap-4 justify-end">
-                  <fa-icon
-                    class="text-lg text-indigo-500"
-                    [icon]="faCheck"
-                    (click)="consultations.confirmConsultation(consultation)"
-                  >
-                  </fa-icon>
-                  <fa-icon
-                    class="text-lg text-red-500"
-                    [icon]="faXmark"
-                    (click)="consultations.cancelConsultation(consultation)"
-                  >
-                  </fa-icon>
+                <div class="flex-[50%]">
+                  <app-stepper
+                    [status]="consultation?.status"
+                    (scheduledClick)="
+                      consultations.consultationStatusChange(
+                        consultation,
+                        'scheduled'
+                      )
+                    "
+                    (waitingClick)="
+                      consultations.consultationStatusChange(
+                        consultation,
+                        'waiting'
+                      )
+                    "
+                    (ongoingClick)="
+                      consultations.consultationStatusChange(
+                        consultation,
+                        'ongoing'
+                      )
+                    "
+                    (paidClick)="
+                      consultations.consultationStatusChange(
+                        consultation,
+                        'paid'
+                      )
+                    "
+                  ></app-stepper>
                 </div>
               </div>
             </div>
