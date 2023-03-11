@@ -126,12 +126,7 @@
                         'ongoing'
                       )
                     "
-                    (paidClick)="
-                      consultations.consultationStatusChange(
-                        consultation,
-                        'paid'
-                      )
-                    "
+                    (paidClick)="onPaymentClick($event, consultation)"
                   ></app-stepper>
                 </div>
               </div>

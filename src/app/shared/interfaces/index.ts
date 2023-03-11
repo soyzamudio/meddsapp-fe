@@ -113,3 +113,10 @@ export const BasicMedialInformationLabels = {
   respiratoryRate: 'Frec. respiratoria',
   temperature: 'Temperatura',
 }
+
+export interface Payment {
+  amount: number;
+  paymentMethod: string;
+  patientId: string;
+  createdAt: Date;
+}

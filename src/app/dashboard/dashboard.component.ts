@@ -125,6 +125,14 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  onPaymentClick(
+    event: { amount: string; paymentMethod: string },
+    consultation: Consultation
+  ) {
+    console.log(event);
+    this.consultations.consultationStatusChange(consultation, 'paid');
+  }
+
   getConsultationsChart() {
     const consultations = this.patients.getConsultationsPerMonth();
     const months = Object.keys(consultations);

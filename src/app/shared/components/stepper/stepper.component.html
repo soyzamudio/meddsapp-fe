@@ -28,8 +28,43 @@
     [class.bg-gray-50]="status !== 'paid'"
     [class.bg-indigo-400]="status === 'paid'"
     [class.text-white]="status === 'paid'"
-    (click)="onPaidClick()"
+    [popper]="paidAmount"
+    [popperTrigger]="NgxPopperjsTriggers.click"
+    [popperHideOnClickOutside]="true"
+    [popperHideOnScroll]="true"
+    [popperPlacement]="NgxPopperjsPlacements.LEFT"
   >
-    Pagado
+    {{ status === "paid" ? "Pagado" : "Pagar" }}
   </div>
 </div>
+
+<popper-content #paidAmount>
+  <div class="flex flex-col gap-2">
+    <select
+      class="h-10 px-3 text-sm border shadow-sm focus:outline-none w-full"
+      [(ngModel)]="paymentMethod"
+      placeholder="Metodo de pago"
+    >
+      <option value="cash">Efectivo</option>
+      <option value="card">Tarjeta</option>
+    </select>
+    <div class="flex w-full items-center">
+      <fa-icon
+        class="text-gray-400 mr-2 text-lg"
+        [icon]="faDollarSign"
+      ></fa-icon>
+      <input
+        class="flex items-center h-10 px-3 text-sm border shadow-sm focus:outline-none"
+        type="text"
+        [(ngModel)]="amount"
+        placeholder="Monto cobrado"
+      />
+      <button
+        class="flex items-center h-10 px-3 text-sm border shadow-sm focus:outline-none bg-green-500 border-l-0"
+        (click)="setAmount()"
+      >
+        <fa-icon class="text-white" [icon]="faMoneyCheckDollarPen"></fa-icon>
+      </button>
+    </div>
+  </div>
+</popper-content>
