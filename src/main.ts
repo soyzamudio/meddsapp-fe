@@ -17,6 +17,7 @@ import { NgxNotificationMsgModule } from 'ngx-notification-msg';
 import { NgxPopperjsModule } from 'ngx-popperjs';
 import { APP_ROUTES } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
+import { PreloadService } from './app/shared/services/preload.service';
 registerLocaleData(localeEs);
 
 setTimeout(() =>
@@ -32,7 +33,7 @@ setTimeout(() =>
             paramsInheritanceStrategy: 'always',
             onSameUrlNavigation: 'reload',
           }),
-          withPreloading(PreloadAllModules)
+          withPreloading(PreloadService)
         ),
         importProvidersFrom([
           NgxPopperjsModule,
