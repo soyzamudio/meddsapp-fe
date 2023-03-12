@@ -5,22 +5,33 @@ import { DashboardBlockComponent } from './../shared/components/dashboard-block/
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaymentMethods } from '../shared/interfaces';
-import { faMagnifyingGlass } from '@fortawesome/pro-regular-svg-icons';
+import { faFileExcel, faMagnifyingGlass } from '@fortawesome/pro-regular-svg-icons';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-reports',
   standalone: true,
-  imports: [CommonModule, DashboardBlockComponent, FormsModule, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    DashboardBlockComponent,
+    FormsModule,
+    FontAwesomeModule,
+  ],
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss'],
 })
 export class ReportsComponent {
   faMagnifyingGlass = faMagnifyingGlass;
+  faFileExcel = faFileExcel;
   startDate = new Date();
   endDate = new Date();
-  payments = this.paymentService.getPayments();
-  totalAmount = this.paymentService.getTotalAmountByDateRange(this.startDate, this.endDate);
-  constructor(public paymentService: PaymentService) {}
+  payments = this.paymentService.getPaymentsByDateRange(this.startDate, this.endDate);
+  totalAmount = this.paymentService.getTotalAmountByDateRange(
+    this.startDate,
+    this.endDate
+  );
+  constructor(public paymentService: PaymentService) {
+  }
 
   getAmountByDate() {
     this.payments = this.paymentService.getPaymentsByDateRange(
@@ -31,6 +42,35 @@ export class ReportsComponent {
       this.startDate,
       this.endDate
     );
+  }
+
+  exportAsExcel() {
+    const formatter = new Intl.NumberFormat('es-MX', {
+      style: 'currency',
+      currency: 'MXN',
+    });
+
+    const ws = XLSX.utils.json_to_sheet(
+      this.payments.map((payment) => ({
+        Fecha: payment.createdAt,
+        'Método de pago': this.getPaymentMethod(payment.paymentMethod),
+        Paciente: payment.patientName,
+        Monto: formatter.format(payment.amount),
+      }))
+    );
+    ws['!cols'] = [
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 20 },
+    ];
+    XLSX.utils.sheet_add_aoa(ws, [['', '', 'Total', formatter.format(this.totalAmount)],], {
+      origin: -1,
+    });
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Pagos');
+    XLSX.writeFile(wb, 'Pagos.xlsx');
   }
 
   getPaymentMethod(method: string) {

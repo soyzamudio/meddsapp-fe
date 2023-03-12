@@ -4,14 +4,16 @@
   >
     <app-dashboard-block>
       <div class="flex gap-4 items-center">
-        <div class="flex flex-col flex-1">
+        <div class="flex flex-col flex-1 gap-4">
           <div class="flex gap-4 items-end">
             <div class="flex flex-col flex-1">
               <h1>Reporte de</h1>
               <input
                 class="border border-gray-300 rounded-md px-2 py-1"
                 type="date"
-                [(ngModel)]="startDate"
+                [ngModel]="startDate | date : 'yyyy-MM-dd'"
+                (ngModelChange)="startDate = $event"
+                lang="es-MX"
               />
             </div>
             <div class="flex flex-col flex-1">
@@ -19,22 +21,45 @@
               <input
                 class="border border-gray-300 rounded-md px-2 py-1"
                 type="date"
-                [(ngModel)]="endDate"
+                [ngModel]="endDate | date : 'yyyy-MM-dd'"
+                (ngModelChange)="endDate = $event"
               />
             </div>
             <button
+              class="bg-white text-black p-2 px-4 border rounded-md shadow-sm hover:bg-gray-50"
               (click)="getAmountByDate()"
-              class="flex items-center h-9 px-3 text-sm shadow-sm focus:outline-none bg-green-500 text-white rounded-sm"
             >
-              <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+              <div class="flex items-center gap-4">
+                <h1 class="font-semibold text-sm">Generar</h1>
+              </div>
+            </button>
+          </div>
+          <div class="flex">
+            <button
+              class="bg-green-500 text-white py-2 px-3 rounded-md shadow-sm hover:bg-green-600"
+              (click)="exportAsExcel()"
+            >
+              <div class="flex items-center gap-2">
+                <fa-icon
+                  class="text-xs py-1 px-[6px] bg-white rounded-lg text-green-600"
+                  [icon]="faFileExcel"
+                ></fa-icon>
+                <h1 class="font-bold text-sm">Exportar a Excel</h1>
+              </div>
             </button>
           </div>
         </div>
         <div class="flex flex-[.5] items-center justify-center">
-          <h1 class="text-2xl font-bold">
-            Total:
-            {{ totalAmount | currency }}
-          </h1>
+          <div class="flex flex-col flex-1 px-16 gap-2">
+            <div class="flex justify-between">
+              <h1 class="text-lg font-bold">Pagos:</h1>
+              <h1 class="text-2xl font-bold">{{ payments.length }}</h1>
+            </div>
+            <div class="flex justify-between">
+              <h1 class="text-lg font-bold">Total:</h1>
+              <h1 class="text-2xl font-bold">{{ totalAmount | currency }}</h1>
+            </div>
+          </div>
         </div>
       </div>
     </app-dashboard-block>

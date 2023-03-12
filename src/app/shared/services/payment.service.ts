@@ -14,7 +14,13 @@ export class PaymentService {
       patientName: chance.name(),
       amount: chance.floating({ min: 0, max: 1000, fixed: 2 }),
       paymentMethod: chance.pickone(['cash', 'card', 'transfer', 'check']),
-      createdAt: new Date(),
+      createdAt: new Date(
+        chance.date({
+          year: 2023,
+          month: 2,
+          day: chance.integer({ min: 1, max: 28 }),
+        })
+      ),
     };
   }, 100);
   constructor() {}
@@ -44,13 +50,17 @@ export class PaymentService {
   getPaymentsByDateRange(startDate: Date, endDate: Date) {
     startDate = new Date(startDate);
     endDate = new Date(endDate);
-    return this.payments.filter(
-      (payment) =>
-        payment.createdAt.getTime() >=
-          new Date(startDate.setHours(0, 0, 0, 0)).getTime() &&
-        payment.createdAt.getTime() <=
-          new Date(endDate.setHours(23, 59, 59, 999)).getTime()
-    );
+    return this.payments
+      .filter(
+        (payment) =>
+          payment.createdAt.getTime() >=
+            new Date(startDate.setHours(0, 0, 0, 0)).getTime() &&
+          payment.createdAt.getTime() <=
+            new Date(endDate.setHours(23, 59, 59, 999)).getTime()
+      )
+      .sort(function (a, b) {
+        return (new Date(a.createdAt) as any) - (new Date(b.createdAt) as any);
+      });
   }
 
   getTotalAmountByDateRange(startDate: Date, endDate: Date) {
