@@ -58,7 +58,7 @@ export class NewConsultationComponent {
   selectedNotes: string;
   availableTimes: string[] = [];
   workHours = ['8:00', '20:00'];
-  workTimes = workTimes(this.workHours, 15);
+  workTimes = workTimes(this.workHours, 60);
   patientsList = this.patientService.getRecentPatients();
   @ViewChild('NewConsultationModal') modal:
     | ModalComponent<NewConsultationComponent>

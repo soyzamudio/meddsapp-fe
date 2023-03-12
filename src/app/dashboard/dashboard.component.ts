@@ -30,6 +30,7 @@ import { DashboardBlockComponent } from './../shared/components/dashboard-block/
 import { Consultation } from './../shared/interfaces/index';
 import { ConsultationService } from './../shared/services/consultation.service';
 import { ModalService } from './../shared/services/modal.service';
+import { PaymentService } from '../shared/services/payment.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -91,7 +92,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     public patients: PatientService,
     public consultations: ConsultationService,
-    private modalService: ModalService<any>
+    private paymentService: PaymentService,
+    private modalService: ModalService<any>,
   ) {}
 
   ngOnInit() {
@@ -129,8 +131,14 @@ export class DashboardComponent implements OnInit {
     event: { amount: string; paymentMethod: string },
     consultation: Consultation
   ) {
-    console.log(event);
     this.consultations.consultationStatusChange(consultation, 'paid');
+    this.paymentService.createPayment({
+      amount: +event.amount,
+      paymentMethod: event.paymentMethod,
+      patientName: consultation.title,
+    } as any);
+
+    console.log(this.paymentService.getPayments());
   }
 
   getConsultationsChart() {

@@ -117,6 +117,14 @@ export const BasicMedialInformationLabels = {
 export interface Payment {
   amount: number;
   paymentMethod: string;
-  patientId: string;
+  patientName: string;
   createdAt: Date;
+  id: string;
+}
+
+export const PaymentMethods = {
+  cash: 'Efectivo',
+  card: 'Tarjeta',
+  transfer: 'Transferencia',
+  check: 'Cheque',
 }

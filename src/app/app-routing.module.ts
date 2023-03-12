@@ -36,4 +36,9 @@ export const APP_ROUTES: Routes = [
     loadComponent: () => import('./schedule/schedule.component')
         .then(m => m.ScheduleComponent)
   },
+  {
+    path: 'reportes',
+    loadComponent: () => import('./reports/reports.component')
+        .then(m => m.ReportsComponent)
+  },
 ];
