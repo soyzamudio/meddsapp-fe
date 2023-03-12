@@ -1,3 +1,4 @@
+import { ForModule } from '@rx-angular/template/for';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { PaymentService } from './../shared/services/payment.service';
@@ -16,6 +17,7 @@ import * as XLSX from 'xlsx';
     DashboardBlockComponent,
     FormsModule,
     FontAwesomeModule,
+    ForModule,
   ],
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss'],
@@ -75,5 +77,9 @@ export class ReportsComponent {
 
   getPaymentMethod(method: string) {
     return (PaymentMethods as any)[method];
+  }
+
+  trackByPayment(index: number, payment: any) {
+    return payment.id;
   }
 }

@@ -75,7 +75,12 @@
       <app-dashboard-block>
         <a
           class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm rounded-md"
-          *ngFor="let payment of payments; let last = last"
+          *rxFor="
+            let payment of payments;
+            let last = last;
+            trackBy: trackByPayment;
+            scheduler: async
+          "
           [class.border-b]="!last"
         >
           <div class="flex-1 font-bold">{{ payment.patientName }}</div>
