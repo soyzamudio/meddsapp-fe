@@ -95,9 +95,10 @@
               </div>
               <div
                 class="flex px-4 py-2 -mx-4 text-sm items-center"
-                *ngFor="
+                *rxFor="
                   let consultation of consultations.getTodayConsultations();
-                  let last = last
+                  let last = last;
+                  trackBy: trackByConsultation
                 "
                 [class.border-b]="!last"
               >
@@ -148,9 +149,10 @@
                 <a
                   [routerLink]="['/pacientes/detalles', patient.id]"
                   class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm"
-                  *ngFor="
+                  *rxFor="
                     let patient of patients.recentPatients;
-                    let last = last
+                    let last = last;
+                    trackBy: trackByPatient
                   "
                   [class.border-b]="!last"
                 >

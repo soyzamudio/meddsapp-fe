@@ -1,4 +1,3 @@
-import { StepperComponent } from './../shared/components/stepper/stepper.component';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -23,14 +22,15 @@ import { CalendarOptions } from '@fullcalendar/core';
 import esLocale from '@fullcalendar/core/locales/es';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { ForModule } from '@rx-angular/template/for';
 import Chart, { ChartItem } from 'chart.js/auto';
-import { PillComponent } from '../shared/components/pill/pill.component';
 import { PatientService } from '../shared/services/patient.service';
+import { PaymentService } from '../shared/services/payment.service';
 import { DashboardBlockComponent } from './../shared/components/dashboard-block/dashboard-block.component';
-import { Consultation } from './../shared/interfaces/index';
+import { StepperComponent } from './../shared/components/stepper/stepper.component';
+import { Consultation, Patient } from './../shared/interfaces/index';
 import { ConsultationService } from './../shared/services/consultation.service';
 import { ModalService } from './../shared/services/modal.service';
-import { PaymentService } from '../shared/services/payment.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -42,6 +42,7 @@ import { PaymentService } from '../shared/services/payment.service';
     FullCalendarModule,
     FontAwesomeModule,
     StepperComponent,
+    ForModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
@@ -93,7 +94,7 @@ export class DashboardComponent implements OnInit {
     public patients: PatientService,
     public consultations: ConsultationService,
     private paymentService: PaymentService,
-    private modalService: ModalService<any>,
+    private modalService: ModalService<any>
   ) {}
 
   ngOnInit() {
@@ -203,5 +204,13 @@ export class DashboardComponent implements OnInit {
         },
       },
     });
+  }
+
+  trackByConsultation(index: number, consultation: Consultation) {
+    return consultation.date;
+  }
+
+  trackByPatient(index: number, patient: Patient) {
+    return patient.id;
   }
 }

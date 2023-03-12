@@ -55,7 +55,12 @@
       <a
         routerLink="/pacientes/detalles/{{ patient.id }}"
         class="flex hover:bg-slate-100 cursor-pointer px-4 py-2 -mx-4 text-sm rounded-md"
-        *ngFor="let patient of patients; let last = last"
+        *rxFor="
+          let patient of patients;
+          let last = last;
+          trackBy: trackByPatient;
+          scheduler: async
+        "
         [class.border-b]="!last"
         (click)="patientService.addToRecentPatients(patient)"
       >

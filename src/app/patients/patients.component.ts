@@ -1,3 +1,4 @@
+import { ForModule } from '@rx-angular/template/for';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -8,6 +9,7 @@ import { DashboardBlockComponent } from './../shared/components/dashboard-block/
 import { PillComponent } from './../shared/components/pill/pill.component';
 import { AgePipe } from './../shared/pipes/age.pipe';
 import { PatientService } from './../shared/services/patient.service';
+import { Patient } from '../shared/interfaces';
 
 @Component({
   selector: 'app-patients',
@@ -20,6 +22,7 @@ import { PatientService } from './../shared/services/patient.service';
     PillComponent,
     RouterModule,
     ReactiveFormsModule,
+    ForModule,
   ],
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.scss'],
@@ -39,5 +42,9 @@ export class PatientsComponent {
   searchPatient() {
     this.searchedValue = this.formGroup.get('searchTerm')?.value as string;
     this.patients = this.patientService.searchPatients(this.searchedValue);
+  }
+
+  trackByPatient(index: number, patient: Patient) {
+    return patient.id;
   }
 }
