@@ -27,7 +27,7 @@ export const APP_ROUTES: Routes = [
     ]
   },
   {
-    path: 'chat',
+    path: 'mensajes',
     loadComponent: () => import('./chat/chat.component')
         .then(m => m.ChatComponent)
   },
