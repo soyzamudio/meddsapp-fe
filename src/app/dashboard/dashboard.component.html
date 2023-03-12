@@ -2,7 +2,7 @@
   <div
     class="flex flex-col h-full w-full bg-gray-100 px-4 py-6 overflow-y-scroll"
   >
-    <div class="flex gap-4">
+    <div class="flex gap-4 flex-col lg:flex-row">
       <div class="flex flex-col flex-[0.15] gap-4">
         <a
           class="bg-indigo-500 text-white p-3 rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer"
@@ -21,12 +21,20 @@
             {{ getConsultationsToday().length }}
           </h1>
         </app-dashboard-block>
-        <app-dashboard-block title="Operaciones" [icon]="faTriangleExclamation">
+        <app-dashboard-block
+          title="Operaciones"
+          [icon]="faTriangleExclamation"
+          class="hidden"
+        >
           <h1 class="flex text-3xl font-bold py-2">
             {{ 0 }}
           </h1>
         </app-dashboard-block>
-        <app-dashboard-block title="Inyecciones" [icon]="faSyringe">
+        <app-dashboard-block
+          title="Inyecciones"
+          [icon]="faSyringe"
+          class="hidden"
+        >
           <h1 class="flex text-3xl font-bold py-2">
             {{ 0 }}
           </h1>
@@ -34,7 +42,7 @@
       </div>
       <div class="flex flex-col gap-4 flex-1">
         <app-dashboard-block>
-          <div class="flex gap-12">
+          <div class="flex flex-col lg:flex-row gap-12">
             <div class="flex flex-1">
               <app-dashboard-block class="flex-1">
                 <full-calendar
@@ -74,68 +82,67 @@
             </div>
           </div>
         </app-dashboard-block>
-        <div>
-          <app-dashboard-block
-            title="Pacientes del día"
-            [icon]="faHospitalUser"
-          >
-            <div class="flex flex-col">
-              <div *ngIf="!consultations.getTodayConsultations().length">
-                <h1 class="text-center text-gray-400 mb-4">
-                  No hay pacientes para hoy
-                </h1>
+        <app-dashboard-block
+          title="Pacientes del día"
+          [icon]="faHospitalUser"
+          class="order-first lg:order-none"
+        >
+          <div class="flex flex-col">
+            <div *ngIf="!consultations.getTodayConsultations().length">
+              <h1 class="text-center text-gray-400 mb-4">
+                No hay pacientes para hoy
+              </h1>
+            </div>
+            <div
+              *ngIf="consultations.getTodayConsultations().length"
+              class="flex py-2 font-bold capitalize"
+            >
+              <div class="flex-1">Paciente</div>
+              <div class="flex-1">Hora</div>
+              <div class="flex-[50%]">Progreso</div>
+            </div>
+            <div
+              class="flex px-4 py-2 -mx-4 text-sm items-center"
+              *rxFor="
+                let consultation of consultations.getTodayConsultations();
+                let last = last;
+                trackBy: trackByConsultation
+              "
+              [class.border-b]="!last"
+            >
+              <div class="flex-1 font-bold">{{ consultation.title }}</div>
+              <div class="flex-1">
+                {{ getTimeAMPM(consultation.time) }}
               </div>
-              <div
-                *ngIf="consultations.getTodayConsultations().length"
-                class="flex py-2 font-bold capitalize"
-              >
-                <div class="flex-1">Paciente</div>
-                <div class="flex-1">Hora</div>
-                <div class="flex-[50%]">Progreso</div>
-              </div>
-              <div
-                class="flex px-4 py-2 -mx-4 text-sm items-center"
-                *rxFor="
-                  let consultation of consultations.getTodayConsultations();
-                  let last = last;
-                  trackBy: trackByConsultation
-                "
-                [class.border-b]="!last"
-              >
-                <div class="flex-1 font-bold">{{ consultation.title }}</div>
-                <div class="flex-1">
-                  {{ getTimeAMPM(consultation.time) }}
-                </div>
-                <div class="flex-[50%]">
-                  <app-stepper
-                    [status]="consultation?.status"
-                    (scheduledClick)="
-                      consultations.consultationStatusChange(
-                        consultation,
-                        'scheduled'
-                      )
-                    "
-                    (waitingClick)="
-                      consultations.consultationStatusChange(
-                        consultation,
-                        'waiting'
-                      )
-                    "
-                    (ongoingClick)="
-                      consultations.consultationStatusChange(
-                        consultation,
-                        'ongoing'
-                      )
-                    "
-                    (paidClick)="onPaymentClick($event, consultation)"
-                  ></app-stepper>
-                </div>
+              <div class="flex-[50%]">
+                <app-stepper
+                  [status]="consultation?.status"
+                  (scheduledClick)="
+                    consultations.consultationStatusChange(
+                      consultation,
+                      'scheduled'
+                    )
+                  "
+                  (waitingClick)="
+                    consultations.consultationStatusChange(
+                      consultation,
+                      'waiting'
+                    )
+                  "
+                  (ongoingClick)="
+                    consultations.consultationStatusChange(
+                      consultation,
+                      'ongoing'
+                    )
+                  "
+                  (paidClick)="onPaymentClick($event, consultation)"
+                ></app-stepper>
               </div>
             </div>
-          </app-dashboard-block>
-        </div>
+          </div>
+        </app-dashboard-block>
 
-        <div class="flex gap-4">
+        <div class="flex flex-col-reverse lg:flex-row gap-4">
           <div class="flex-1">
             <app-dashboard-block title="Pacientes por mes" [icon]="faChartLine">
               <canvas id="monthly-consultations">{{
