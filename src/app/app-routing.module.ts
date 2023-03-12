@@ -3,6 +3,7 @@ import { Routes } from "@angular/router";
 export const APP_ROUTES: Routes = [
   {
     path: '',
+    data: { preload: true },
     loadComponent: () => import('./dashboard/dashboard.component')
         .then(m => m.DashboardComponent)
   },
