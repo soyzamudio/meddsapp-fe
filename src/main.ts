@@ -19,29 +19,31 @@ import { APP_ROUTES } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
 registerLocaleData(localeEs);
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter(
-      APP_ROUTES,
-      withInMemoryScrolling({
-        scrollPositionRestoration: 'disabled',
-      }),
-      withEnabledBlockingInitialNavigation(),
-      withRouterConfig({
-        paramsInheritanceStrategy: 'always',
-        onSameUrlNavigation: 'reload',
-      }),
-      withPreloading(PreloadAllModules)
-    ),
-    importProvidersFrom([
-      NgxPopperjsModule,
-      FontAwesomeModule,
-      BrowserModule,
-      FullCalendarModule,
-      NgxNotificationMsgModule,
-    ]),
-    provideAnimations(),
-    { provide: LOCALE_ID, useValue: 'es' },
-    // { provide: RouteReuseStrategy, useClass: Router }
-  ],
-}).catch((err) => console.error(err));
+setTimeout(() =>
+    bootstrapApplication(AppComponent, {
+      providers: [
+        provideRouter(
+          APP_ROUTES,
+          withInMemoryScrolling({
+            scrollPositionRestoration: 'disabled',
+          }),
+          withEnabledBlockingInitialNavigation(),
+          withRouterConfig({
+            paramsInheritanceStrategy: 'always',
+            onSameUrlNavigation: 'reload',
+          }),
+          withPreloading(PreloadAllModules)
+        ),
+        importProvidersFrom([
+          NgxPopperjsModule,
+          FontAwesomeModule,
+          BrowserModule,
+          FullCalendarModule,
+          NgxNotificationMsgModule,
+        ]),
+        provideAnimations(),
+        { provide: LOCALE_ID, useValue: 'es' },
+        // { provide: RouteReuseStrategy, useClass: Router }
+      ],
+    }).catch((err) => console.error(err))
+);
