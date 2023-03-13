@@ -1,8 +1,8 @@
 <div class="flex flex-row h-screen antialiased text-gray-800">
   <div
-    class="flex flex-col h-full w-full bg-gray-100 px-4 py-6 lg:overflow-y-scroll"
+    class="flex flex-col h-full w-full bg-gray-100 px-4 py-6 tablet:overflow-y-scroll pb-24 tablet:pb-6"
   >
-    <div class="flex gap-4 flex-col lg:flex-row">
+    <div class="flex gap-4 flex-col tablet:flex-row">
       <div class="flex flex-col flex-[0.15] gap-4">
         <a
           class="bg-indigo-500 text-white p-3 rounded-md shadow-sm hover:bg-indigo-600 cursor-pointer"
@@ -24,7 +24,7 @@
         <app-dashboard-block
           title="Operaciones"
           [icon]="faTriangleExclamation"
-          class="hidden"
+          class="hidden tablet:flex"
         >
           <h1 class="flex text-3xl font-bold py-2">
             {{ 0 }}
@@ -33,7 +33,7 @@
         <app-dashboard-block
           title="Inyecciones"
           [icon]="faSyringe"
-          class="hidden"
+          class="hidden tablet:flex"
         >
           <h1 class="flex text-3xl font-bold py-2">
             {{ 0 }}
@@ -42,7 +42,7 @@
       </div>
       <div class="flex flex-col gap-4 flex-1">
         <app-dashboard-block>
-          <div class="flex flex-col lg:flex-row gap-12">
+          <div class="flex flex-col tablet:flex-row gap-12">
             <div class="flex flex-1">
               <app-dashboard-block class="flex-1">
                 <full-calendar
@@ -71,10 +71,9 @@
                 </h1>
               </app-dashboard-block>
               <app-dashboard-block
-                class="flex flex-1"
+                class="hidden tablet:flex tablet:flex-1"
                 title="Por atender"
                 [icon]="faUserXmark"
-                class="hidden lg:flex"
               >
                 <h1 class="flex text-3xl font-bold py-2">
                   {{ consultations.getTodayUnconfirmedConsultations().length }}
@@ -86,7 +85,7 @@
         <app-dashboard-block
           title="Pacientes del día"
           [icon]="faHospitalUser"
-          class="order-first lg:order-none"
+          class="order-first tablet:order-none"
         >
           <div class="flex flex-col">
             <div *ngIf="!consultations.getTodayConsultations().length">
@@ -143,7 +142,7 @@
           </div>
         </app-dashboard-block>
 
-        <div class="flex flex-col-reverse lg:flex-row gap-4">
+        <div class="flex flex-col-reverse tablet:flex-row gap-4">
           <div class="flex-1">
             <app-dashboard-block title="Pacientes por mes" [icon]="faChartLine">
               <canvas id="monthly-consultations">{{
