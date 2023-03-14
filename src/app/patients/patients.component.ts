@@ -11,6 +11,7 @@ import { AgePipe } from './../shared/pipes/age.pipe';
 import { PatientService } from './../shared/services/patient.service';
 import { Patient } from '../shared/interfaces';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { isMobile } from '../shared/utils/utils';
 
 @Component({
   selector: 'app-patients',
@@ -40,6 +41,7 @@ export class PatientsComponent {
   offset = 0;
   patients: Patient[] = [];
   searchedValue = '';
+  isMobile = isMobile.any();
 
   constructor(public patientService: PatientService) {
     this.patients = this.patientService.getPatients(this.limit, this.offset)
