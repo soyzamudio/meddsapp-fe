@@ -65,6 +65,12 @@ export class DashboardComponent implements OnInit {
   calendarOptions: CalendarOptions = {
     locale: esLocale,
     initialView: 'dayGridWeek',
+    views: {
+      dayGridWeek: {
+        type: 'dayGrid',
+        duration: { days: 3 }
+      }
+    },
     plugins: [dayGridPlugin, interactionPlugin],
     selectable: true,
     headerToolbar: false,
@@ -83,6 +89,9 @@ export class DashboardComponent implements OnInit {
           this.consultationsByDate = this.getConsultationsByDate(this.date);
         },
       },
+    },
+    eventClick: (arg) => {
+      console.log(arg);
     },
     dateClick: (info: any) => {
       this.date = info.date;

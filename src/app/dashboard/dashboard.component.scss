@@ -1,15 +1,7 @@
-::ng-deep {
-  .bs-datepicker {
-    border-radius: 50px;
-    box-shadow: none;
-  }
-  .bs-datepicker-body {
-    border: none;
-  }
-
-  .bs-datepicker-head {
-    background: none;
-    background-color: none !important;
-    color: #444;
+.fc {
+  ::ng-deep {
+    .fc-daygrid-day-frame {
+      overflow: hidden;
+    }
   }
 }

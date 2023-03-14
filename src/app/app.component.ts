@@ -31,13 +31,6 @@ export class AppComponent {
   faSquareDollar = faSquareDollar;
   hover = NgxPopperjsTriggers.hover;
 
-  mobileMenuItems = [
-    'Inicio',
-    'Pacientes',
-    'Calendario',
-    'Mensajes',
-    'Configuración',
-  ];
   menuItems = [
     {
       icon: this.faHouseMedical,
@@ -73,9 +66,5 @@ export class AppComponent {
 
   toggleNightMode() {
     document.body.classList.toggle('night-mode');
-  }
-
-  getMobileMenuItems(): { icon: any; title: string; link: string }[] {
-    return this.menuItems.filter((item) => this.mobileMenuItems.includes(item.title));
   }
 }

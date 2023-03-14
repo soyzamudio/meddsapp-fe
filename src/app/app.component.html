@@ -43,7 +43,7 @@
 >
   <div class="flex justify-evenly">
     <a
-      *rxFor="let item of getMobileMenuItems()"
+      *rxFor="let item of menuItems"
       class="flex flex-1 justify-center text-gray-600 hover:text-indigo-500 py-4"
       [routerLink]="item.link"
       routerLinkActive="text-indigo-500 border-indigo-500 border-t-4"
