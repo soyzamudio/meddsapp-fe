@@ -53,8 +53,8 @@
       <div class="flex-1">Nombre</div>
       <div class="flex-1 hidden tablet:flex">Edad</div>
       <div class="flex-1 hidden tablet:flex">Ultima visita</div>
-      <div class="flex-1">Proxima visita</div>
-      <div class="flex-1">Activo</div>
+      <div class="flex-1 text-right tablet:text-left">Proxima visita</div>
+      <div class="flex-1 hidden tablet:flex">Activo</div>
       <div class="flex-1 justify-center hidden tablet:flex">Acciones</div>
     </div>
     <app-dashboard-block>
@@ -74,8 +74,10 @@
         <div class="flex-1 hidden tablet:flex">
           {{ patient.lastConsultation?.date | date }}
         </div>
-        <div class="flex-1">{{ patient.nextConsultation?.date | date }}</div>
-        <div class="flex-1">
+        <div class="flex-1 text-right flex:text-left">
+          {{ patient.nextConsultation?.date | date }}
+        </div>
+        <div class="flex-1 hidden tablet:flex">
           <app-pill class="flex" [active]="patient.active">
             <div
               class="h-2 w-2 rounded-full"
