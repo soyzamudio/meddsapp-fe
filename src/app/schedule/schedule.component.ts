@@ -39,7 +39,10 @@ export class ScheduleComponent {
           this.openNewConsultationModal();
         }
       },
-    }
+    },
+    eventClick: (arg) => {
+      console.log(arg);
+    },
   };
 
   constructor(private consultation: ConsultationService, private modalService: ModalService<any>) {}
