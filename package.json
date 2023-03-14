@@ -37,6 +37,7 @@
     "@rx-angular/template": "^2.0.0",
     "chart.js": "^4.2.1",
     "moment": "^2.29.4",
+    "ngx-infinite-scroll": "^15.0.0",
     "ngx-notification-msg": "^0.2.2",
     "ngx-popperjs": "^15.0.4",
     "rxjs": "~7.8.0",

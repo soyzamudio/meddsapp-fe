@@ -3,6 +3,11 @@
 >
   <div
     class="flex flex-col gap-4 h-full w-full bg-gray-100 px-4 py-6 tablet:overflow-y-scroll"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    [scrollWindow]="false"
+    (scrolled)="scrolled()"
   >
     <app-dashboard-block>
       <div class="flex w-full content-between items-center gap-4">
@@ -60,8 +65,7 @@
         *rxFor="
           let patient of patients;
           let last = last;
-          trackBy: trackByPatient;
-          scheduler: async
+          trackBy: trackByPatient
         "
         [class.border-b]="!last"
         (click)="patientService.addToRecentPatients(patient)"

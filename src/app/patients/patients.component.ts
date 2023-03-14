@@ -10,6 +10,7 @@ import { PillComponent } from './../shared/components/pill/pill.component';
 import { AgePipe } from './../shared/pipes/age.pipe';
 import { PatientService } from './../shared/services/patient.service';
 import { Patient } from '../shared/interfaces';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-patients',
@@ -23,6 +24,7 @@ import { Patient } from '../shared/interfaces';
     RouterModule,
     ReactiveFormsModule,
     ForModule,
+    InfiniteScrollModule,
   ],
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.scss'],
@@ -34,10 +36,23 @@ export class PatientsComponent {
   faEdit = faEdit;
   faTrash = faTrash;
   faTimes = faTimes;
-  patients = this.patientService.getPatients();
+  limit = 25;
+  offset = 0;
+  patients: Patient[] = [];
   searchedValue = '';
 
-  constructor(public patientService: PatientService) {}
+  constructor(public patientService: PatientService) {
+    this.patients = this.patientService.getPatients(this.limit, this.offset)
+  }
+
+  scrolled() {
+    this.offset += this.limit;
+    console.log(this.offset);
+    this.patients = [
+      ...this.patients,
+      ...this.patientService.getPatients(this.limit, this.offset),
+    ];
+  }
 
   searchPatient() {
     this.searchedValue = this.formGroup.get('searchTerm')?.value as string;

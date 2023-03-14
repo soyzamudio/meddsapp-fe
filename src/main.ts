@@ -16,6 +16,7 @@ import { APP_ROUTES } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
 import { PreloadService } from './app/shared/services/preload.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 setTimeout(() =>
@@ -39,6 +40,7 @@ setTimeout(() =>
         BrowserModule,
         FullCalendarModule,
         NgxNotificationMsgModule,
+        InfiniteScrollModule,
         ServiceWorkerModule.register('ngsw-worker.js', {
           enabled: !isDevMode(),
           // Register the ServiceWorker as soon as the application is stable
