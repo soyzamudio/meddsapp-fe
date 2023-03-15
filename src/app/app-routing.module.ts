@@ -38,6 +38,11 @@ export const APP_ROUTES: Routes = [
         .then(m => m.ScheduleComponent)
   },
   {
+    path: 'videollamada/:id',
+    loadComponent: () => import('./conference/conference.component')
+        .then(m => m.ConferenceComponent)
+  },
+  {
     path: 'reportes',
     loadComponent: () => import('./reports/reports.component')
         .then(m => m.ReportsComponent)

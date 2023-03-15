@@ -17,7 +17,8 @@ import { AppComponent } from './app/app.component';
 import { PreloadService } from './app/shared/services/preload.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 setTimeout(() =>
   bootstrapApplication(AppComponent, {
@@ -41,12 +42,24 @@ setTimeout(() =>
         FullCalendarModule,
         NgxNotificationMsgModule,
         InfiniteScrollModule,
+        provideFirebaseApp(() =>
+          initializeApp({
+            apiKey: 'AIzaSyBdqBnzUvTjmvREPH6Kvs9fExJusMwOULo',
+            authDomain: 'medsapp-c2ac2.firebaseapp.com',
+            projectId: 'medsapp-c2ac2',
+            storageBucket: 'medsapp-c2ac2.appspot.com',
+            messagingSenderId: '398646613662',
+            appId: '1:398646613662:web:1e846a8e82ba5506cc4d8f',
+            measurementId: 'G-Z4G3VJQKT9',
+          })
+        ),
+        provideFirestore(() => getFirestore()),
         ServiceWorkerModule.register('ngsw-worker.js', {
           enabled: !isDevMode(),
           // Register the ServiceWorker as soon as the application is stable
           // or after 30 seconds (whichever comes first).
-          registrationStrategy: 'registerWhenStable:30000'
-        })
+          registrationStrategy: 'registerWhenStable:30000',
+        }),
       ]),
       provideAnimations(),
       // { provide: RouteReuseStrategy, useClass: Router }

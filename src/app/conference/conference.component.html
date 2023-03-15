@@ -1,0 +1,25 @@
+<div class="flex">
+  <button
+    class="boder shadow flex justify-center items-center p-4 bg-white rounded-sm"
+    (click)="webcamBtnClick()"
+  >
+    Webcam
+  </button>
+
+  <button
+    class="boder shadow flex justify-center items-center p-4 bg-green-500 text-white rounded-sm"
+    (click)="callBtnClick()"
+  >
+    Call
+  </button>
+
+  <button
+    class="boder shadow flex justify-center items-center p-4 bg-blue-500 text-white rounded-sm"
+    (click)="answerBtnClick()"
+  >
+    Answer
+  </button>
+</div>
+
+<video id="webcamVideo" autoplay playsinline class="w-full h-full"></video>
+<video id="remoteVideo" autoplay playsinline></video>
