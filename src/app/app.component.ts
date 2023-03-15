@@ -11,6 +11,7 @@ import {
   faMessageMedical,
   faSquareDollar,
   faUserDoctorHair,
+  faVideoPlus,
 } from '@fortawesome/pro-regular-svg-icons';
 import { NgxPopperjsModule, NgxPopperjsTriggers } from 'ngx-popperjs';
 @Component({
@@ -29,6 +30,7 @@ export class AppComponent {
   faUserDoctor = faUserDoctorHair;
   faLaptopMedical = faStaffSnake;
   faSquareDollar = faSquareDollar;
+  faVideoPlus = faVideoPlus;
   hover = NgxPopperjsTriggers.hover;
 
   menuItems = [
@@ -51,6 +53,11 @@ export class AppComponent {
       icon: this.faCommentMedical,
       title: 'Mensajes',
       link: '/mensajes',
+    },
+    {
+      icon: this.faVideoPlus,
+      title: 'Video Consultas',
+      link: '/video-consultas',
     },
     {
       icon: this.faSquareDollar,

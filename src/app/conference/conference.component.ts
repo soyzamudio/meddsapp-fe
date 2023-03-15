@@ -1,3 +1,4 @@
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -10,6 +11,7 @@ import {
   getDoc,
 } from '@angular/fire/firestore';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { faPhone, faPhoneHangup } from '@fortawesome/pro-regular-svg-icons';
 
 const servers = {
   iceServers: [
@@ -27,16 +29,16 @@ let remoteStream: MediaStream;
 @Component({
   selector: 'app-conference',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FontAwesomeModule],
   templateUrl: './conference.component.html',
   styleUrls: ['./conference.component.scss'],
 })
 export class ConferenceComponent implements OnInit {
+  faPhone = faPhone;
+  faPhoneHangup = faPhoneHangup;
   callId = this.router.snapshot.params['id'];
   webcamVideo: HTMLVideoElement;
   remoteVideo: HTMLVideoElement;
-  // @ViewChild('webcamVideo') webcamVideo: HTMLVideoElement;
-  // @ViewChild('remoteVideo') remoteVideo: HTMLVideoElement;
 
   constructor(private router: ActivatedRoute, private firestore: Firestore) {}
 
@@ -51,6 +53,7 @@ export class ConferenceComponent implements OnInit {
     localStream = await navigator.mediaDevices.getUserMedia({
       video: true,
       audio: true,
+
     });
 
     localStream.getTracks().forEach((track) => pc.addTrack(track, localStream));
@@ -66,6 +69,21 @@ export class ConferenceComponent implements OnInit {
     };
 
     this.remoteVideo.srcObject = remoteStream;
+
+    let bandwidth = 75 ;
+
+    const sender = pc.getSenders()[0];
+    const parameters = sender.getParameters();
+    if (!parameters.encodings) {
+      parameters.encodings = [{}];
+    }
+
+    parameters.encodings[0].maxBitrate = bandwidth * 1000;
+    sender.setParameters(parameters)
+        .then(() => {
+          console.log(parameters);
+        })
+        .catch(e => console.error(e));
   }
 
   async callBtnClick() {

@@ -1,4 +1,17 @@
-<div class="flex">
+<video
+  id="webcamVideo"
+  autoplay
+  playsinline
+  class="w-full h-full bg-gray-300"
+></video>
+<video
+  id="remoteVideo"
+  autoplay
+  playsinline
+  class="h-52 aspect-video absolute bottom-0 right-0 m-12 bg-gray-500"
+></video>
+
+<div class="absolute flex w-full bottom-0 left-0 mb-12 justify-center gap-4">
   <button
     class="boder shadow flex justify-center items-center p-4 bg-white rounded-sm"
     (click)="webcamBtnClick()"
@@ -7,19 +20,16 @@
   </button>
 
   <button
-    class="boder shadow flex justify-center items-center p-4 bg-green-500 text-white rounded-sm"
     (click)="callBtnClick()"
+    class="text-3xl rounded-full bg-green-500 h-18 w-18 shadow-lg flex items-center justify-center py-5 px-6 hover:bg-green-600"
   >
-    Call
+    <fa-icon [icon]="faPhone" class="text-white"></fa-icon>
   </button>
 
   <button
-    class="boder shadow flex justify-center items-center p-4 bg-blue-500 text-white rounded-sm"
     (click)="answerBtnClick()"
+    class="text-3xl rounded-full bg-red-500 h-18 w-18 shadow-lg flex items-center justify-center py-5 px-5 hover:bg-red-600"
   >
-    Answer
+    <fa-icon [icon]="faPhoneHangup" class="text-white"></fa-icon>
   </button>
 </div>
-
-<video id="webcamVideo" autoplay playsinline class="w-full h-full"></video>
-<video id="remoteVideo" autoplay playsinline></video>
