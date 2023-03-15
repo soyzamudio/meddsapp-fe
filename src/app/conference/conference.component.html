@@ -1,4 +1,82 @@
-<video
+<div class="flex flex-row h-screen antialiased text-gray-800">
+  <div class="flex flex-col h-full w-full bg-gray-100 px-4 py-4">
+    <div class="flex gap-4">
+      <app-dashboard-block class="flex flex-col flex-1">
+        <div class="flex border-b p-2 pb-6 gap-4 items-center">
+          <fa-icon
+            class="bg-gray-100 rounded-xl p-4 hover:bg-gray-200 cursor-pointer"
+            [icon]="faChevronLeft"
+          ></fa-icon>
+          <div>
+            <h1 class="text-2xl font-semibold">
+              Consulta con {{ patient.name }}
+            </h1>
+            <h4 class="text-sm text-gray-300">
+              Numero identificador: {{ callId }}
+            </h4>
+          </div>
+        </div>
+        <div class="flex flex-col border-b pb-6">
+          <div class="relative flex-1">
+            <video
+              id="remoteVideo"
+              autoplay
+              playsinline
+              class="w-full bg-gray-300 rounded-3xl aspect-video"
+            ></video>
+            <div
+              class="text-white absolute top-0 m-8 text-xs p-2 px-4 bg-black bg-opacity-20 rounded-lg"
+            >
+              {{ patient.name }}
+            </div>
+            <div
+              class="flex font-semibold text-lg gap-2 items-center m-8 absolute bottom-0 right-0 bg-black bg-opacity-20 rounded-lg p-2 px-4 text-white"
+            >
+              <fa-icon [icon]="faClock"></fa-icon>
+              {{ callTimer | date : "mm:ss" }}
+            </div>
+            <div class="absolute top-0 right-0 m-8">
+              <video
+                id="webcamVideo"
+                autoplay
+                playsinline
+                class="h-28 aspect-video bg-gray-400 border-4 border-white rounded-xl shadow-lg"
+              ></video>
+              <div
+                class="text-white absolute bottom-0 m-3 ml-5 text-xs p-1 px-2 bg-black bg-opacity-20 rounded-lg"
+              >
+                Yo
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex">
+          <button
+            class="boder shadow flex justify-center items-center p-4 bg-white rounded-sm"
+            (click)="webcamBtnClick()"
+          >
+            Webcam
+          </button>
+          <button
+            (click)="callBtnClick()"
+            class="text-3xl rounded-full bg-green-500 h-18 w-18 shadow-lg flex items-center justify-center py-5 px-6 hover:bg-green-600"
+          >
+            <fa-icon [icon]="faPhone" class="text-white"></fa-icon>
+          </button>
+          <button
+            (click)="hangUp()"
+            class="text-3xl rounded-full bg-red-500 h-18 w-18 shadow-lg flex items-center justify-center py-5 px-5 hover:bg-red-600"
+          >
+            <fa-icon [icon]="faPhoneHangup" class="text-white"></fa-icon>
+          </button>
+        </div>
+      </app-dashboard-block>
+      <app-dashboard-block class="flex-[.5]"> fRIEND </app-dashboard-block>
+    </div>
+  </div>
+</div>
+
+<!-- <video
   id="webcamVideo"
   autoplay
   playsinline
@@ -27,9 +105,9 @@
   </button>
 
   <button
-    (click)="answerBtnClick()"
+    (click)="hangUp()"
     class="text-3xl rounded-full bg-red-500 h-18 w-18 shadow-lg flex items-center justify-center py-5 px-5 hover:bg-red-600"
   >
     <fa-icon [icon]="faPhoneHangup" class="text-white"></fa-icon>
   </button>
-</div>
+</div> -->

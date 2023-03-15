@@ -1,3 +1,6 @@
+import { PatientService } from './../shared/services/patient.service';
+import { Patient } from './../shared/interfaces/index';
+import { DashboardBlockComponent } from './../shared/components/dashboard-block/dashboard-block.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -10,8 +13,13 @@ import {
   onSnapshot,
   getDoc,
 } from '@angular/fire/firestore';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { faPhone, faPhoneHangup } from '@fortawesome/pro-regular-svg-icons';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import {
+  faChevronLeft,
+  faClock,
+  faPhone,
+  faPhoneHangup,
+} from '@fortawesome/pro-regular-svg-icons';
 
 const servers = {
   iceServers: [
@@ -23,37 +31,61 @@ const servers = {
 };
 
 const pc = new RTCPeerConnection(servers);
+const dc = pc.createDataChannel('my channel');
 let localStream: MediaStream;
 let remoteStream: MediaStream;
 
 @Component({
   selector: 'app-conference',
   standalone: true,
-  imports: [CommonModule, RouterModule, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FontAwesomeModule,
+    DashboardBlockComponent,
+  ],
   templateUrl: './conference.component.html',
   styleUrls: ['./conference.component.scss'],
 })
 export class ConferenceComponent implements OnInit {
+  faChevronLeft = faChevronLeft;
   faPhone = faPhone;
   faPhoneHangup = faPhoneHangup;
-  callId = this.router.snapshot.params['id'];
+  faClock = faClock;
+  callId = this.route.snapshot.params['callId'];
+  patientId = this.route.snapshot.params['patientId'];
+  patient: Patient;
+  callTimer: number = 0;
   webcamVideo: HTMLVideoElement;
   remoteVideo: HTMLVideoElement;
 
-  constructor(private router: ActivatedRoute, private firestore: Firestore) {}
+  constructor(
+    private route: ActivatedRoute,
+    private firestore: Firestore,
+    private router: Router,
+    private patientService: PatientService
+  ) {}
 
   ngOnInit() {
-    this.webcamVideo = document.getElementById('webcamVideo') as HTMLVideoElement;
-    this.remoteVideo = document.getElementById('remoteVideo') as HTMLVideoElement;
+    this.patient = this.patientService.getPatientById(this.patientId);
+    console.log(this.patient)
+    this.webcamVideo = document.getElementById(
+      'webcamVideo'
+    ) as HTMLVideoElement;
+    this.remoteVideo = document.getElementById(
+      'remoteVideo'
+    ) as HTMLVideoElement;
   }
 
   async webcamBtnClick() {
-    console.log('webcamBtnClick');
-
     localStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
+      video: {
+        frameRate: 10,
+        aspectRatio: 1.7777777778,
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+      },
       audio: true,
-
     });
 
     localStream.getTracks().forEach((track) => pc.addTrack(track, localStream));
@@ -70,7 +102,7 @@ export class ConferenceComponent implements OnInit {
 
     this.remoteVideo.srcObject = remoteStream;
 
-    let bandwidth = 75 ;
+    let bandwidth = 75;
 
     const sender = pc.getSenders()[0];
     const parameters = sender.getParameters();
@@ -79,15 +111,17 @@ export class ConferenceComponent implements OnInit {
     }
 
     parameters.encodings[0].maxBitrate = bandwidth * 1000;
-    sender.setParameters(parameters)
-        .then(() => {
-          console.log(parameters);
-        })
-        .catch(e => console.error(e));
+    sender
+      .setParameters(parameters)
+      .then()
+      .catch((e) => console.error(e));
   }
 
   async callBtnClick() {
-    console.log('callBtnClick');
+    const callTimer = setInterval(() => {
+      this.callTimer = this.callTimer + 1000;
+    }, 1000);
+
     const callDoc = doc(this.firestore, 'calls', this.callId);
     const offerCandidates = collection(callDoc, 'offerCandidates');
     const answerCandidates = collection(callDoc, 'answerCandidates');
@@ -122,6 +156,11 @@ export class ConferenceComponent implements OnInit {
         }
       });
     });
+
+    dc.onclose = () => {
+      clearInterval(callTimer);
+      // this.router.navigate(['/video-consultas']);
+    };
   }
 
   async answerBtnClick() {
@@ -131,7 +170,7 @@ export class ConferenceComponent implements OnInit {
 
     pc.onicecandidate = (event) => {
       event.candidate && addDoc(answerCandidates, event.candidate.toJSON());
-    }
+    };
 
     const callData = (await getDoc(callDoc)).data() as any;
 
@@ -150,12 +189,15 @@ export class ConferenceComponent implements OnInit {
 
     onSnapshot(offerCandidates, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
-        console.log(change);
         if (change.type === 'added') {
           let data = change.doc.data();
           pc.addIceCandidate(new RTCIceCandidate(data));
         }
       });
     });
+  }
+
+  hangUp() {
+    pc.close();
   }
 }

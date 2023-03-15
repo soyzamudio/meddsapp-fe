@@ -42,8 +42,8 @@ export const APP_ROUTES: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('./conference/conference.component')
-            .then(m => m.ConferenceComponent)
+        loadComponent: () => import('./video/video.component')
+            .then(m => m.VideoComponent)
       },
       {
         path: 'crear',
@@ -51,7 +51,7 @@ export const APP_ROUTES: Routes = [
             .then(m => m.ConferenceComponent)
       },
       {
-        path: ':id',
+        path: ':callId/:patientId',
         loadComponent: () => import('./conference/conference.component')
             .then(m => m.ConferenceComponent)
       }
