@@ -1,26 +1,25 @@
-import { PatientService } from './../shared/services/patient.service';
-import { Patient } from './../shared/interfaces/index';
-import { DashboardBlockComponent } from './../shared/components/dashboard-block/dashboard-block.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  Firestore,
-  doc,
-  collection,
   addDoc,
-  setDoc,
-  onSnapshot,
+  collection,
+  doc,
+  Firestore,
   getDoc,
+  onSnapshot,
+  setDoc,
 } from '@angular/fire/firestore';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faChevronLeft,
   faClock,
   faPhone,
   faPhoneHangup,
 } from '@fortawesome/pro-regular-svg-icons';
-import { stream } from 'xlsx';
+import { DashboardBlockComponent } from './../shared/components/dashboard-block/dashboard-block.component';
+import { Patient } from './../shared/interfaces/index';
+import { PatientService } from './../shared/services/patient.service';
 
 const servers = {
   iceServers: [
@@ -68,16 +67,15 @@ export class ConferenceComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    console.log(this.firestore);
     this.patient = this.patientService.getPatientById(this.patientId);
-    console.log(this.patient)
+    console.log(this.patient);
     this.webcamVideo = document.getElementById(
       'webcamVideo'
     ) as HTMLVideoElement;
     this.remoteVideo = document.getElementById(
       'remoteVideo'
     ) as HTMLVideoElement;
-
-    this.webcamBtnClick();
   }
 
   ngOnDestroy() {
@@ -125,10 +123,6 @@ export class ConferenceComponent implements OnInit, OnDestroy {
   }
 
   async callBtnClick() {
-    const callTimer = setInterval(() => {
-      this.callTimer = this.callTimer + 1000;
-    }, 1000);
-
     const callDoc = doc(this.firestore, 'calls', this.callId);
     const offerCandidates = collection(callDoc, 'offerCandidates');
     const answerCandidates = collection(callDoc, 'answerCandidates');
@@ -159,19 +153,22 @@ export class ConferenceComponent implements OnInit, OnDestroy {
       snapshot.docChanges().forEach((change) => {
         if (change.type === 'added') {
           const candidate = new RTCIceCandidate(change.doc.data());
+          console.log('candidate', candidate);
           pc.addIceCandidate(candidate);
         }
       });
     });
 
     dc.onclose = () => {
-      clearInterval(callTimer);
       localStream.getTracks().forEach((track) => track.stop());
+      this.webcamVideo.srcObject = null;
+      this.remoteVideo.srcObject = null;
       // this.router.navigate(['/video-consultas']);
     };
   }
 
   async answerBtnClick() {
+    console.log('answerBtnClick');
     const callDoc = doc(this.firestore, 'calls', this.callId);
     const answerCandidates = collection(callDoc, 'answerCandidates');
     const offerCandidates = collection(callDoc, 'offerCandidates');
@@ -183,6 +180,7 @@ export class ConferenceComponent implements OnInit, OnDestroy {
     const callData = (await getDoc(callDoc)).data() as any;
 
     const offerDescription = callData?.offer;
+    console.log(offerDescription);
     await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
 
     const answerDescription = await pc.createAnswer();
