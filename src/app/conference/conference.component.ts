@@ -2,7 +2,7 @@ import { PatientService } from './../shared/services/patient.service';
 import { Patient } from './../shared/interfaces/index';
 import { DashboardBlockComponent } from './../shared/components/dashboard-block/dashboard-block.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   Firestore,
@@ -20,6 +20,7 @@ import {
   faPhone,
   faPhoneHangup,
 } from '@fortawesome/pro-regular-svg-icons';
+import { stream } from 'xlsx';
 
 const servers = {
   iceServers: [
@@ -47,7 +48,7 @@ let remoteStream: MediaStream;
   templateUrl: './conference.component.html',
   styleUrls: ['./conference.component.scss'],
 })
-export class ConferenceComponent implements OnInit {
+export class ConferenceComponent implements OnInit, OnDestroy {
   faChevronLeft = faChevronLeft;
   faPhone = faPhone;
   faPhoneHangup = faPhoneHangup;
@@ -75,6 +76,12 @@ export class ConferenceComponent implements OnInit {
     this.remoteVideo = document.getElementById(
       'remoteVideo'
     ) as HTMLVideoElement;
+
+    this.webcamBtnClick();
+  }
+
+  ngOnDestroy() {
+    localStream.getTracks().forEach((track) => track.stop());
   }
 
   async webcamBtnClick() {
@@ -159,6 +166,7 @@ export class ConferenceComponent implements OnInit {
 
     dc.onclose = () => {
       clearInterval(callTimer);
+      localStream.getTracks().forEach((track) => track.stop());
       // this.router.navigate(['/video-consultas']);
     };
   }
